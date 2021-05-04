@@ -1,7 +1,7 @@
 modLoader="javafml" #mandatory
 loaderVersion="[36,)" #mandatory
 #issueTrackerURL="" #optional
-license="GNU Public v3"
+license="https://raw.githubusercontent.com/50ap5ud5/BoatItemView/1.16.x-forge/LICENSE"
 [[mods]] #mandatory
 modId="boatiview" #mandatory
 version="${version}" #mandatory
