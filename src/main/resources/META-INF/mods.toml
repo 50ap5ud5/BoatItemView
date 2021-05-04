@@ -1,0 +1,28 @@
+modLoader="javafml" #mandatory
+loaderVersion="[36,)" #mandatory
+#issueTrackerURL="" #optional
+license="GNU Public v3"
+[[mods]] #mandatory
+modId="boatiview" #mandatory
+version="${version}" #mandatory
+displayName="Boat Item View" #mandatory
+#updateJSONURL="http://myurl.me/" #optional
+#displayURL="" #optional
+#logoFile="logo.png" #optional
+credits="Treblero for the mod idea" #optional
+authors="50ap5ud5" #optional
+description='''
+The Boat Item View mod allows you to view your mainhand or offhand items whilst sitting in a moving boat.'''
+[[dependencies.boatiview]]
+  modId="forge"
+  mandatory=true
+  versionRange="[36.0.42,)"
+  ordering="NONE"
+  side="CLIENT"
+
+[[dependencies.boatiview]]
+  modId="minecraft"
+  mandatory=true
+  versionRange="[1.16.4, 1.17]"
+  ordering="NONE"
+  side="CLIENT"
