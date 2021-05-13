@@ -4,8 +4,8 @@ plugins {
 }
 
 loom {
-    accessWidener = file("src/main/resources/boatiview.accessWidener")
-    refMapName = "boatiview.refmap.json"
+    accessWidener = file("src/main/resources/boatiview.accesswidener")
+    refmapName = "boatiview.refmap.json"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -27,8 +27,8 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	//mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	mappings loom.officialMojangMappings()
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	//mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
