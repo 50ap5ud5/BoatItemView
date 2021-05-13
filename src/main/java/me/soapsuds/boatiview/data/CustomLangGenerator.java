@@ -14,15 +14,15 @@ import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.minecraft.block.Block;
+import net.minecraft.data.DataCache;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public abstract class CustomLangGenerator implements DataProvider {
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
@@ -40,10 +40,10 @@ public abstract class CustomLangGenerator implements DataProvider {
     protected abstract void addTranslationedNames();
 
     @Override
-    public void run(HashCache cache) throws IOException {
+    public void run(DataCache cache) throws IOException {
         addTranslationedNames();
         if (!data.isEmpty())
-            save(cache, data, this.gen.getOutputFolder().resolve("assets/" + modid + "/lang/" + locale + ".json"));
+            save(cache, data, this.gen.getOutput().resolve("assets/" + modid + "/lang/" + locale + ".json"));
     }
 
     @Override
@@ -51,11 +51,11 @@ public abstract class CustomLangGenerator implements DataProvider {
         return "Languages: " + locale;
     }
 
-    private void save(HashCache cache, Object object, Path target) throws IOException {
+    private void save(DataCache cache, Object object, Path target) throws IOException {
         String data = GSON.toJson(object);
         data = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(data); // Escape unicode after the fact so that it's not double escaped by GSON
         String hash = DataProvider.SHA1.hashUnencodedChars(data).toString();
-        if (!Objects.equals(cache.getHash(target), hash) || !Files.exists(target)) {
+        if (!Objects.equals(cache.getOldSha1(target), hash) || !Files.exists(target)) {
            Files.createDirectories(target.getParent());
 
            try (BufferedWriter bufferedwriter = Files.newBufferedWriter(target)) {
@@ -63,7 +63,7 @@ public abstract class CustomLangGenerator implements DataProvider {
            }
         }
 
-        cache.putNew(target, hash);
+        cache.updateSha1(target, hash);
     }
 
     public void addBlock(Supplier<? extends Block> key, String name) {
@@ -71,7 +71,7 @@ public abstract class CustomLangGenerator implements DataProvider {
     }
 
     public void add(Block key, String name) {
-        add(key.getDescriptionId(), name);
+        add(key.getTranslationKey(), name);
     }
 
     public void addItem(Supplier<? extends Item> key, String name) {
@@ -79,7 +79,7 @@ public abstract class CustomLangGenerator implements DataProvider {
     }
 
     public void add(Item key, String name) {
-        add(key.getDescriptionId(), name);
+        add(key.getTranslationKey(), name);
     }
 
     public void addItemStack(Supplier<ItemStack> key, String name) {
@@ -87,7 +87,7 @@ public abstract class CustomLangGenerator implements DataProvider {
     }
 
     public void add(ItemStack key, String name) {
-        add(key.getDescriptionId(), name);
+        add(key.getTranslationKey(), name);
     }
 
     public void addEnchantment(Supplier<? extends Enchantment> key, String name) {
@@ -95,15 +95,15 @@ public abstract class CustomLangGenerator implements DataProvider {
     }
 
     public void add(Enchantment key, String name) {
-        add(key.getDescriptionId(), name);
+        add(key.getTranslationKey(), name);
     }
 
-    public void addEffect(Supplier<? extends MobEffect> key, String name) {
+    public void addEffect(Supplier<? extends StatusEffect> key, String name) {
         add(key.get(), name);
     }
 
-    public void add(MobEffect key, String name) {
-        add(key.getDescriptionId(), name);
+    public void add(StatusEffect key, String name) {
+        add(key.getTranslationKey(), name);
     }
 
     public void addEntityType(Supplier<? extends EntityType<?>> key, String name) {
@@ -111,7 +111,7 @@ public abstract class CustomLangGenerator implements DataProvider {
     }
 
     public void add(EntityType<?> key, String name) {
-        add(key.getDescriptionId(), name);
+        add(key.getTranslationKey(), name);
     }
 
     public void add(String key, String value) {
