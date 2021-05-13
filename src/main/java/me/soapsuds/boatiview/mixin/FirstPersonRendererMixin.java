@@ -7,15 +7,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import me.soapsuds.boatiview.client.ClientHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.item.HeldItemRenderer;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.world.item.ItemStack;
 
-@Mixin(HeldItemRenderer.class)
+@Mixin(ItemInHandRenderer.class)
 public class FirstPersonRendererMixin {
 	
-	@Inject(method = "Lnet/minecraft/client/render/item/HeldItemRenderer;updateHeldItems()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isRiding()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
-	public void modifyHandRender(CallbackInfo info, ClientPlayerEntity clientplayerentity, ItemStack itemstack, ItemStack itemstack1) {
+	@Inject(method = "Lnet/minecraft/client/renderer/ItemInHandRenderer;tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isHandsBusy()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
+	public void modifyHandRender(CallbackInfo info, LocalPlayer clientplayerentity, ItemStack itemstack, ItemStack itemstack1) {
 		ClientHandler.modifyHandRender(clientplayerentity, itemstack, itemstack1);
 	}
 

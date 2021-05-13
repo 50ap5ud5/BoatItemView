@@ -27,8 +27,8 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	//mappings loom.officialMojangMappings()
+	//mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings minecraft.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
@@ -43,6 +43,7 @@ dependencies {
     modRuntime("com.terraformersmc:modmenu:${mod_menu_version}") {
         transitive(false)
     }
+    include "cloth-config:ClothConfig:${cloth_config_version}"
 }
 
 processResources {

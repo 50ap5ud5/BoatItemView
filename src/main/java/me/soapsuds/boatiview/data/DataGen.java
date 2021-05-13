@@ -21,7 +21,7 @@ public class DataGen {
 	public static void onDataGen(Path path, Collection<Path> collection) {
 		DataGenerator generator = new DataGenerator(path, collection);
 
-		generator.install(new BLangGen(generator));
+		generator.addProvider(new BLangGen(generator));
 
 	}
 
