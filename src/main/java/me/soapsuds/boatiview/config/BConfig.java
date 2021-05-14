@@ -18,10 +18,10 @@ public class BConfig implements ConfigData {
 	
 	@Config(name = "Client")
     public static class ClientConfig implements ConfigData{
-    	@Comment("Toggle whether the hand should be rendered whilst the boat is moving")
-    	public boolean showHandsInMovingBoat = true;
-    	@Comment("List of items that will make the hand display when a boat is moving. Seperate every entry except the last one with commas")
-    	public List<String> itemsToShowInMovingBoat = Lists.newArrayList("minecraft:filled_map");
+
+    	public boolean showHandsInMovingBoat;
+
+    	public List<String> itemsToShowInMovingBoat;
     	
         public ClientConfig() {
 //        	builder.push("Client Settings");
