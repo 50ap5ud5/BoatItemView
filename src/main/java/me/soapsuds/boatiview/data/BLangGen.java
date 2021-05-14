@@ -14,7 +14,7 @@ public class BLangGen extends CustomLangGenerator {
     }
 
     @Override
-    protected void addTranslationedNames() {
+    protected void addTranslationKeyAndNames() {
        //Configs
        add("text.autoconfig.boatiview.option.client.showHandsInMovingBoat", "Show Items in Moving Boat");
        add("text.autoconfig.boatiview.option.client.itemsToShowInMovingBoat", "Items to display in Moving Boat");
