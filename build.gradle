@@ -37,13 +37,13 @@ dependencies {
 	modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-	 modCompileOnly("com.terraformersmc:modmenu:${mod_menu_version}") {
+	modCompileOnly("com.terraformersmc:modmenu:${mod_menu_version}") {
         transitive(false)
     }
     modRuntime("com.terraformersmc:modmenu:${mod_menu_version}") {
         transitive(false)
     }
-    include "cloth-config:ClothConfig:${cloth_config_version}"
+    include "me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}"
 }
 
 processResources {

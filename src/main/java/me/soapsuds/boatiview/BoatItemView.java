@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import me.soapsuds.boatiview.config.BConfig;
 import net.fabricmc.api.ModInitializer;
@@ -24,10 +25,7 @@ public class BoatItemView implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		AutoConfig.register(BConfig.class, Toml4jConfigSerializer::new);
+		AutoConfig.register(BConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
 		CONFIG = AutoConfig.getConfigHolder(BConfig.class).getConfig();
-		AutoConfig.getConfigHolder(BConfig.class).registerSaveListener((manager, data) -> {
-            return InteractionResult.SUCCESS;
-        });
 	}
 }

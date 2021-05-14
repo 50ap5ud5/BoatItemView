@@ -1,6 +1,5 @@
 package me.soapsuds.boatiview.data;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -17,8 +16,9 @@ public class BLangGen extends CustomLangGenerator {
     @Override
     protected void addTranslationedNames() {
        //Configs
-       add("config.boatiview.show_hands_in_moving_boat", "Show Items in Moving Boat");
-       add("config.boatiview.items_to_show_in_moving_boat", "Items to display in Moving Boat");
+       add("text.autoconfig.boatiview.option.client.showHandsInMovingBoat", "Show Items in Moving Boat");
+       add("text.autoconfig.boatiview.option.client.itemsToShowInMovingBoat", "Items to display in Moving Boat");
+       add("text.autoconfig.boatiview.title", "Boat Item View");
 
     }
 
