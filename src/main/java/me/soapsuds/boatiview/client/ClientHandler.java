@@ -20,12 +20,14 @@ public class ClientHandler {
                 boolean showHandsOffHand = false;
                 for (String entry : config.client.itemsToShowInMovingBoat) {
                     Item item = Registry.ITEM.get(new ResourceLocation(entry));
-                    if (entry != null) {
+                    if (item != null) {
                         if (itemstack.getItem() == item) {
                             showHandsMainHand = true;
+                            Minecraft.getInstance().getItemInHandRenderer().mainHandItem = itemstack;
                         }
                         if (itemstack1.getItem() == item) {
                             showHandsOffHand = true;
+                            Minecraft.getInstance().getItemInHandRenderer().offHandItem = itemstack1;
                         }
                     }
                 }
