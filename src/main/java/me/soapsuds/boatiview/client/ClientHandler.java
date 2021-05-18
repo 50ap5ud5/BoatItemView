@@ -18,12 +18,13 @@ public class ClientHandler {
                 boolean showHandsOffHand = false;
                 for (String entry : BConfig.CLIENT.itemsToShowInMovingBoat.get()) {
                     Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(entry));
-                    if (entry != null) {
+                    if (item != null) {
                         if (itemstack.getItem() == item) {
                             showHandsMainHand = true;
-                        }
+                            Minecraft.getInstance().getItemInHandRenderer().mainHandItem = itemstack;                       }
                         if (itemstack1.getItem() == item) {
                             showHandsOffHand = true;
+                            Minecraft.getInstance().getItemInHandRenderer().offHandItem = itemstack1;
                         }
                     }
                 }
