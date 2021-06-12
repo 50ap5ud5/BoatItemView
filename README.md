@@ -11,7 +11,7 @@ The Boat Item View Mod is a client-side only Minecraft mod that allows you to vi
 </div>
 <p align="center">
   <img src="http://cf.way2muchnoise.eu/versions/boat-item-view.svg">
-  <img src="http://cf.way2muchnoise.eu/boat-item-view.svg"> <br>
+  <img src="http://cf.way2muchnoise.eu/boat-item-view-forge.svg"> <br>
 </p>
 <p align="center">
   <b>Links:</b>
@@ -27,6 +27,7 @@ The Boat Item View Mod is a client-side only Minecraft mod that allows you to vi
 - <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">Fabric API (Required)</a>
 - <a href="https://www.curseforge.com/minecraft/mc-mods/cloth-config">Cloth Config (Required, Prepackaged)</a>
 - <a href="https://www.curseforge.com/minecraft/mc-mods/modmenu">Mod Menu (Optional)</a>
+
 ### Forge
 - <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional, provides Config GUI)</a>
 
@@ -52,16 +53,16 @@ Below are some screenshots of the mod:
 <div style="text-align:center;">
 The mod in action
 <p style="text-align:center;">
-<img src="https://i.imgur.com/6s5Kpa6.gif" width="600" height="350">
+<img src="https://i.imgur.com/6s5Kpa6.gif" width="364" height="204">
 </p>
 
 Config GUI (Fabric with Cloth Config and Mod Menu)
 <p style="text-align:center;">
-<img src="https://i.imgur.com/2Mii7r4.png" width="600" height="300">
+<img src="https://i.imgur.com/2Mii7r4.png" width="480" height="247">
 </p>
 
 Config GUI (Forge with Configured Mod)
 <p style="text-align:center;">
-<img src="https://i.imgur.com/CqYf7ZY.png" width="600" height="300">
+<img src="https://i.imgur.com/CqYf7ZY.png" width="480" height="247">
 </p>
 </div>
