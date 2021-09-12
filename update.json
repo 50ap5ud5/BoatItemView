@@ -1,0 +1,17 @@
+{
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/boat-item-view",
+  "promos": {
+    "fabric-1.16.5-latest": "0.0.2",
+    "fabric-1.16.5-recommended": "0.0.2",
+    "fabric-1.17.1-latest": "0.0.2",
+    "fabric-1.17.1-recommended": "0.0.2",
+    "forge-1.17.1-latest": "0.0.2",
+    "forge-1.17.1-recommended": "0.0.2"
+  },
+  "1.16.5": {
+    "0.0.2": "Fixed the clientside instance of player's held item not updating after switching to other hotbar items. "
+  },
+  "1.17.1": {
+    "0.0.2": "Fixed the clientside instance of player's held item not updating after switching to other hotbar items. "
+  }
+}

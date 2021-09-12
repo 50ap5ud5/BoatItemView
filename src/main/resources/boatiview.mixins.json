@@ -1,7 +1,6 @@
 {
   "required": true,
   "package": "me.soapsuds.boatiview.mixin",
-  "compatibilityLevel": "JAVA_8",
   "refmap": "boatiview.refmap.json",
   "client": [
     "FirstPersonRendererMixin"

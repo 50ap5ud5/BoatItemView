@@ -1,28 +1,27 @@
-modLoader="javafml" #mandatory
-loaderVersion="[36,)" #mandatory
-issueTrackerURL="https://github.com/50ap5ud5/BoatItemView/issues" #optional
-license="https://raw.githubusercontent.com/50ap5ud5/BoatItemView/1.16.x-forge/LICENSE"
-[[mods]] #mandatory
-modId="boatiview" #mandatory
-version="${version}" #mandatory
-displayName="Boat Item View" #mandatory
-#updateJSONURL="http://myurl.me/" #optional
-#displayURL="" #optional
-logoFile="icon.png" #optional
-credits="Treblero for the mod idea" #optional
-authors="50ap5ud5" #optional
-description='''
-The Boat Item View mod allows you to view your held items whilst sitting in a moving boat.'''
-[[dependencies.boatiview]]
-  modId="forge"
-  mandatory=true
-  versionRange="[33.0.22,)"
-  ordering="NONE"
-  side="CLIENT"
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${license}"
+issueTrackerURL="${issue_tracker_url}" #optional
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+#updateJSONURL="${update_json_url}" #optional
+displayURL = "${display_url}" #optional
+logoFile = "${logo_file}" #optional
+credits = "${credits}"
+authors = "${mod_authors}"
+description = '''${mod_description}'''
 
-[[dependencies.boatiview]]
-  modId="minecraft"
-  mandatory=true
-  versionRange="[1.16.1, 1.17]"
-  ordering="NONE"
-  side="CLIENT"
+[[dependencies.${mod_id}]]
+modId = "forge"
+mandatory = true
+versionRange = "${forge_version_range}"
+ordering = "NONE"
+side="CLIENT"
+[[dependencies.${mod_id}]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "CLIENT"

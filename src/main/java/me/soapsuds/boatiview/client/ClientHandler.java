@@ -3,15 +3,15 @@ package me.soapsuds.boatiview.client;
 import me.soapsuds.boatiview.config.BConfig;
 import me.soapsuds.boatiview.util.BConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ClientHandler {
     
-    public static void modifyHandRender(ClientPlayerEntity clientplayerentity, ItemStack itemstack, ItemStack itemstack1) {
+    public static void modifyHandRender(LocalPlayer clientplayerentity, ItemStack itemstack, ItemStack itemstack1) {
         if (BConfig.CLIENT.showHandsInMovingBoat.get()) {
             if (clientplayerentity.isHandsBusy()) {//Do another check if the hands are busy because our mixin is injected at the method call
                 boolean showHandsMainHand = false;
