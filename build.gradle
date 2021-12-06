@@ -22,7 +22,7 @@ version = "${minecraft_version}-${mod_version}"
 group = "${mod_base_package}.${mod_id}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = jar_name
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16) // Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 17 to end users in 1.18+ instead of Java 16 in 1.17 or lower, so your mod should target Java 16.
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
@@ -149,6 +149,7 @@ if (System.getProperty("idea.sync.active") == "true") {
         }
     }
 }
+
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
 def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]

@@ -6,12 +6,19 @@
     "fabric-1.17.1-latest": "0.0.2",
     "fabric-1.17.1-recommended": "0.0.2",
     "forge-1.17.1-latest": "0.0.2",
-    "forge-1.17.1-recommended": "0.0.2"
+    "forge-1.17.1-recommended": "0.0.2",
+    "fabric-1.18-latest": "0.0.3",
+    "fabric-1.18-recommended": "0.0.3",
+    "forge-1.18-latest": "0.0.3",
+    "forge-1.18-recommended": "0.0.3"
   },
   "1.16.5": {
     "0.0.2": "Fixed the clientside instance of player's held item not updating after switching to other hotbar items. "
   },
   "1.17.1": {
     "0.0.2": "Fixed the clientside instance of player's held item not updating after switching to other hotbar items. "
+  },
+  "1.18": {
+    "0.0.3":"Updated to MC 1.18. Added Brazilian Portuguese translation."
   }
 }
