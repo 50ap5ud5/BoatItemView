@@ -13,7 +13,7 @@
     "issues":"https://github.com/50ap5ud5/BoatItemView/issues"
   },
 
-  "license": "https://github.com/50ap5ud5/BoatItemView/blob/1.16.x-fabric/LICENSE",
+  "license": "https://github.com/50ap5ud5/BoatItemView/blob/1.18.x-fabric/LICENSE",
   "icon": "assets/boatiview/icon.png",
 
   "environment": "client",
@@ -31,10 +31,10 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.12.8",
     "fabric": "*",
-    "minecraft": "1.17.x",
-	"java": ">=16"
+    "minecraft": "1.18.x",
+	"java": ">=17"
   },
   "suggests": {
     "cloth-config2": "*",
