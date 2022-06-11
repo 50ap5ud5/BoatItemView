@@ -1,22 +1,10 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.parchmentmc.org' }
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-	    classpath 'org.parchmentmc:librarian:1.+'
-		classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
-    }
+plugins {
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'org.spongepowered.mixin'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
 version = "${minecraft_version}-${mod_version}"
 group = "${mod_base_package}.${mod_id}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -24,8 +12,20 @@ archivesBaseName = jar_name
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 17 to end users in 1.18+ instead of Java 16 in 1.17 or lower, so your mod should target Java 16.
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
+    /* The mappings can be changed at any time and must be in the following format.
+       Channel:   Version:
+       snapshot   YYYYMMDD   Snapshot are built nightly.
+       stable     #          Stables are built at the discretion of the MCP team.
+       official   MCVersion  Official field/method names from Mojang mapping files
+
+       You must be aware of the Mojang license when using the 'official' mappings.
+       See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
+
+       Use non-default mappings at your own risk. They may not always work.
+       Simply re-run your setup task after changing the mappings to update your workspace.
+    */
 
     mappings channel: mappings_channel, version: mappings_version
 
@@ -51,6 +51,9 @@ minecraft {
                Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             */
             property 'forge.logging.console.level', 'debug'
+
+			// Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            property 'forge.enabledGameTestNamespaces', mod_id
 
             // Export mixin-changed classes
             property 'mixin.debug.export', 'true'
@@ -98,6 +101,34 @@ minecraft {
             }
         }
 
+		// This run config launches GameTestServer and runs all registered gametests, then exits.
+        // By default, the server will crash when no gametests are provided.
+        // The gametest system is also enabled by default for other run configs under the /test command.
+        gameTestServer {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            // The markers can be added/remove as needed separated by commas.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            property 'forge.logging.console.level', 'debug'
+
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            property 'forge.enabledGameTestNamespaces', mod_id
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
         data {
             workingDirectory project.file('run')
 
@@ -125,17 +156,38 @@ mixin {
 }
 
 repositories {
-
+    // Put repositories for dependencies here
+    // ForgeGradle automatically adds the Forge maven and Maven Central for you
 }
 
 dependencies {
-  
+    /* Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
+       that the dep is a ForgeGradle 'patcher' dependency and its patches will be applied.
+       The userdev artifact is a special name and will get all sorts of transformations applied to it.
+    */
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // Mixin annotation processor - generates the refmap
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
-    
+    /* You may put jars on which you depend on in ./libs or you may define them like so:
+       compile "some.group:artifact:version:classifier"
+       compile "some.group:artifact:version"
+
+       Real examples
+       compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'     adds buildcraft to the dev env
+       compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24'    adds ejml to the dev env
+
+       The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+       provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+       These dependencies get remapped to your current MCP mappings
+       deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+       For more info...
+       http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+       http://www.gradle.org/docs/current/userguide/dependency_management.html
+    */
 }
 
 /* IntelliJ Project Import
@@ -149,7 +201,6 @@ if (System.getProperty("idea.sync.active") == "true") {
         }
     }
 }
-
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
 def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
@@ -195,6 +246,10 @@ jar {
                 "MixinConfigs": "${mod_id}.mixins.json"
         ])
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
 // Example configuration to allow publishing using the maven-publish task

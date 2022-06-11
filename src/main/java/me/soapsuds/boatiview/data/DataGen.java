@@ -22,7 +22,7 @@ public class DataGen {
 		DataGenerator generator = event.getGenerator();
 		ExistingFileHelper fileHelper = event.getExistingFileHelper();
 
-		generator.addProvider(new BLangGen(generator));
+		generator.addProvider(true, new BLangGen(generator));
 
 	}
 
