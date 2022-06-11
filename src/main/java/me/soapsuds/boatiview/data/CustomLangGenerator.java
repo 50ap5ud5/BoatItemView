@@ -1,21 +1,17 @@
 package me.soapsuds.boatiview.data;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
-
-import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 /** Extensible Minecraft Language File generator. Based off MinecraftForge's LangProvider*/
 public abstract class CustomLangGenerator implements DataProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
@@ -37,7 +33,7 @@ public abstract class CustomLangGenerator implements DataProvider {
     protected abstract void addTranslationKeyAndNames();
 
     @Override
-    public void run(HashCache cache) throws IOException {
+    public void run(CachedOutput cache) throws IOException {
         addTranslationKeyAndNames();
         if (!dataToTranslate.isEmpty())
             save(cache, dataToTranslate, this.gen.getOutputFolder().resolve("assets/" + modid + "/lang/" + locale + ".json"));
@@ -48,18 +44,13 @@ public abstract class CustomLangGenerator implements DataProvider {
         return "Language Locale: " + locale;
     }
 
-    private void save(HashCache cache, Object object, Path target) throws IOException {
-        String data = GSON.toJson(object); //Convert to json string format
-        data = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(data); // Escape unicodes after the so that it's not double escaped by GSON
-        String hash = DataProvider.SHA1.hashUnencodedChars(data).toString();
-        if (!Objects.equals(cache.getHash(target), hash) || !Files.exists(target)) {//Account for hash
-           Files.createDirectories(target.getParent());
-
-           try (BufferedWriter bufferedwriter = Files.newBufferedWriter(target)) {
-              bufferedwriter.write(data);
-           }
+    private void save(CachedOutput cache, Object object, Path target) throws IOException {
+        JsonObject json = new JsonObject();
+        for (Map.Entry<String, String> pair : dataToTranslate.entrySet()) {
+            json.addProperty(pair.getKey(), pair.getValue());
         }
-        cache.putNew(target, hash);
+
+        DataProvider.saveStable(cache, json, target);
     }
 
     /** Adds the specified key-value pair to the map. Each pair must be unique*/

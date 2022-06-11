@@ -1,40 +1,37 @@
 {
   "schemaVersion": 1,
-  "id": "boatiview",
-  "version": "${version}",
-  "name": "Boat Item View",
-  "description": "The Boat Item View mod allows you to view your held items whilst sitting in a moving boat.",
-  "authors": [
-    "50ap5ud5"
-  ],
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": ["${mod_authors}"],
   "contact": {
-    "homepage": "https://github.com/50ap5ud5",
-    "sources": "https://github.com/50ap5ud5/BoatItemView",
-    "issues":"https://github.com/50ap5ud5/BoatItemView/issues"
+    "homepage": "${homepage}",
+    "sources": "${sources}"
   },
 
-  "license": "https://github.com/50ap5ud5/BoatItemView/blob/1.18.x-fabric/LICENSE",
+  "license": "${license}",
   "icon": "assets/boatiview/icon.png",
 
   "environment": "client",
   "entrypoints": {
     "main": [
-      "me.soapsuds.boatiview.BoatItemView"
+      "${main_mod_class}"
     ],
     "modmenu":[
         "me.soapsuds.boatiview.compat.ModMenuConfig"
     ]
   },
-  "accessWidener":"boatiview.accesswidener",
+  "accessWidener":"${mod_id}.accesswidener",
   "mixins": [
-    "boatiview.mixins.json"
+    "${mod_id}.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.12.8",
-    "fabric": "*",
-    "minecraft": "1.18.x",
-	"java": ">=17"
+    "fabricloader": "${fabric_loader_version_range}",
+    "fabric": "${fabric_version_range}",
+    "minecraft": "${minecraft_version_range}",
+    "java": "${java_version_range}"
   },
   "suggests": {
     "cloth-config2": "*",

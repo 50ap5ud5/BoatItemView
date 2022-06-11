@@ -1,9 +1,11 @@
 package me.soapsuds.boatiview.data;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import me.soapsuds.boatiview.BoatItemView;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 
 public class BLangGen extends CustomLangGenerator {

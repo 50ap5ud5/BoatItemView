@@ -23,22 +23,22 @@ public class ClientHandler {
                     if (item != null) {
                         if (itemstack.getItem() == item) {
                             showHandsMainHand = true;
-                            Minecraft.getInstance().getItemInHandRenderer().mainHandItem = itemstack;
+                            Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().mainHandItem = itemstack;
                         }
                         if (itemstack1.getItem() == item) {
                             showHandsOffHand = true;
-                            Minecraft.getInstance().getItemInHandRenderer().offHandItem = itemstack1;
+                            Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().offHandItem = itemstack1;
                         }
                     }
                 }
                 
                 //Increase the hand height so that when the hand is moved down after this mixin, it will appear to remain at 1
                 if (showHandsMainHand) {
-                    Minecraft.getInstance().getItemInHandRenderer().mainHandHeight = BConstants.EXTRA_HAND_HEIGHT;
+                    Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().mainHandHeight = BConstants.EXTRA_HAND_HEIGHT;
                 }
 
                 if (showHandsOffHand) {
-                    Minecraft.getInstance().getItemInHandRenderer().offHandHeight = BConstants.EXTRA_HAND_HEIGHT;
+                    Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().offHandHeight = BConstants.EXTRA_HAND_HEIGHT;
                 }
             }
         }
