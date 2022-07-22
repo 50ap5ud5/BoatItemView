@@ -1,0 +1,5 @@
+{
+  "text.autoconfig.boatiview.option.client.itemsToShowInMovingBoat": "在移动的船中渲染的物品",
+  "text.autoconfig.boatiview.option.client.showHandsInMovingBoat": "在移动的船中渲染手持物品",
+  "text.autoconfig.boatiview.title": "划船物品显示"
+}
