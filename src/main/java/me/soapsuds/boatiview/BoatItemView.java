@@ -8,7 +8,6 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import me.soapsuds.boatiview.config.BConfig;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.world.InteractionResult;
 
 
 public class BoatItemView implements ModInitializer {

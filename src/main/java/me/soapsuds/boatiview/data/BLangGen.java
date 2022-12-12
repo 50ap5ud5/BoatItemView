@@ -1,28 +1,25 @@
 package me.soapsuds.boatiview.data;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import me.soapsuds.boatiview.BoatItemView;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
-public class BLangGen extends CustomLangGenerator {
-    private final DataGenerator generator;
-    public BLangGen(DataGenerator gen) {
-        super(gen, BoatItemView.MODID, "en_us");
-        this.generator = gen;
+public class BLangGen extends FabricLanguageProvider {
+
+    public BLangGen(FabricDataOutput out) {
+        super(out, "en_us");
     }
 
-    @Override
-    protected void addTranslationKeyAndNames() {
-       //Configs
-       add("text.autoconfig.boatiview.option.client.showHandsInMovingBoat", "Show Items in Moving Boat");
-       add("text.autoconfig.boatiview.option.client.itemsToShowInMovingBoat", "Items to display in Moving Boat");
-       add("text.autoconfig.boatiview.title", "Boat Item View");
+	@Override
+	public void generateTranslations(TranslationBuilder translationBuilder) {
+		//Configs
+	    translationBuilder.add("text.autoconfig.boatiview.option.client.showHandsInMovingBoat", "Show Items in Moving Boat");
+	    translationBuilder.add("text.autoconfig.boatiview.option.client.itemsToShowInMovingBoat", "Items to display in Moving Boat");
+	    translationBuilder.add("text.autoconfig.boatiview.title", "Boat Item View");
+	}
 
-    }
 
     public String fixCapitalisations(String text) {
         String original = text.trim().replace("    ", "").replace("_", " ").replace("/", ".");
@@ -31,6 +28,7 @@ public class BLangGen extends CustomLangGenerator {
                 .collect(Collectors.joining(" "));
         return output;
     }
+
 
 
 }

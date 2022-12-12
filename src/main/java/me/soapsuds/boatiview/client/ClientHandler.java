@@ -5,10 +5,14 @@ import me.soapsuds.boatiview.config.BConfig;
 import me.soapsuds.boatiview.util.BConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.RegistryDataLoader;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class ClientHandler {
     
@@ -19,7 +23,7 @@ public class ClientHandler {
                 boolean showHandsMainHand = false;
                 boolean showHandsOffHand = false;
                 for (String entry : config.client.itemsToShowInMovingBoat) {
-                    Item item = Registry.ITEM.get(new ResourceLocation(entry));
+                    Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(entry));
                     if (item != null) {
                         if (itemstack.getItem() == item) {
                             showHandsMainHand = true;
