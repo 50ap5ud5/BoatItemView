@@ -31,7 +31,7 @@ public class BConfig {
     	    		.translation("config.boatiview.show_hands_in_moving_boat")
     	    		.define("showHandsInMovingBoat", true);
     	    this.itemsToShowInMovingBoat = builder.translation("config.boatiview.items_to_show_in_moving_boat")
-                    .comment("List of items that will make the hand display when a boat is moving","Seperate every entry except the last one with commas")
+                    .comment("List of items that will make the hand display when a boat is moving","Seperate every entry except the last one with commas","To include all items for a particular modid use the wildcard character '*'. E.g. modid:*")
                     .defineList("itemsToShowInMovingBoat", Lists.newArrayList("minecraft:filled_map"), String.class::isInstance);
     	    		
     	    builder.pop();

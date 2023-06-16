@@ -10,7 +10,15 @@
     "fabric-1.18-latest": "0.0.3",
     "fabric-1.18-recommended": "0.0.3",
     "forge-1.18-latest": "0.0.3",
-    "forge-1.18-recommended": "0.0.3"
+    "forge-1.18-recommended": "0.0.3",
+	"fabric-1.19-latest": "0.0.4",
+	"fabric-1.19-recommended": "0.0.4",
+	"forge-1.19-latest": "0.0.4",
+	"forge-1.19-recommended": "0.0.4",
+	"fabric-1.20-latest": "0.0.5",
+	"fabric-1.20-recommended": "0.0.5",
+	"forge-1.20-latest": "0.0.5",
+	"forge-1.20-recommended": "0.0.5",
   },
   "1.16.5": {
     "0.0.2": "Fixed the clientside instance of player's held item not updating after switching to other hotbar items. "
@@ -20,5 +28,11 @@
   },
   "1.18": {
     "0.0.3":"Updated to MC 1.18. Added Brazilian Portuguese translation."
+  },
+  "1.19":{
+	"0.0.4": "Update to work with Forge 41.0.64 and above. Fix a NoClassDefFound error. Added Chinese (Simplified) translations. Thank you Wudji."
+  },
+  "1.20":{
+	"0.0.5": "Allow all items for a specific modid to be displayed if the '*' wildcard is used. E.g. modid:* "
   }
 }

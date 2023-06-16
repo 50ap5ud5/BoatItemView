@@ -11,7 +11,7 @@ import net.minecraftforge.common.data.LanguageProvider;
 public class BLangGen extends LanguageProvider {
     private final DataGenerator generator;
     public BLangGen(DataGenerator gen) {
-        super(gen, BoatItemView.MODID, "en_us");
+        super(gen.getPackOutput(), BoatItemView.MODID, "en_us");
         this.generator = gen;
     }
 
