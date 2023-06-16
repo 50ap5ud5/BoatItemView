@@ -21,7 +21,7 @@ public class BConfig extends PartitioningSerializer.GlobalData {
     public static class ClientConfig implements ConfigData{
     	@Comment("Toggle whether the hand should be rendered whilst the boat is moving")
 		public boolean showHandsInMovingBoat = true;
-        @Comment("List of items that will make the hand display when a boat is moving\nSeperate every entry except the last one with commas")
+        @Comment("List of items that will make the hand display when a boat is moving\nSeperate every entry except the last one with commas\nTo include all items for a particular modid use the wildcard character '*'. E.g. modid:*")
     	public List<String> itemsToShowInMovingBoat = Lists.newArrayList("minecraft:filled_map");
     	
         public ClientConfig() {

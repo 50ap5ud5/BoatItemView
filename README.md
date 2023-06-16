@@ -10,8 +10,7 @@ The Boat Item View Mod is a client-side only Minecraft mod that allows you to vi
 </p>
 </div>
 <p align="center">
-  <img src="http://cf.way2muchnoise.eu/versions/boat-item-view.svg">
-  <img src="http://cf.way2muchnoise.eu/boat-item-view-forge.svg"> <br>
+  <img src="https://cf.way2muchnoise.eu/versions/482160.svg">
 </p>
 <p align="center">
   <b>Links:</b>
