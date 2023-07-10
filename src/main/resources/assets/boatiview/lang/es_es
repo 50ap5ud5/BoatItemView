@@ -1,0 +1,5 @@
+{
+  "text.autoconfig.boatiview.option.client.itemsToShowInMovingBoat": "Mostrar objetos mientras el barco está en movimiento",
+  "text.autoconfig.boatiview.option.client.showHandsInMovingBoat": "Objetos que se mostraran cuando el barco esté en movimiento",
+  "text.autoconfig.boatiview.title": "Boat Item View"
+}
