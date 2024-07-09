@@ -1,7 +1,0 @@
-{
-    "pack": {
-        "description": "boatiview resources",
-        "pack_format": 8,
-        "_comment": "A pack_format of 8 requires json lang files and some texture changes from 1.18. Note: we require v8 pack meta for all mods."
-    }
-}

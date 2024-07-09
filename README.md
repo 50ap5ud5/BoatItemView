@@ -5,7 +5,7 @@ The Boat Item View Mod is a client-side only Minecraft mod that allows you to vi
 <div style="text-align:center;">
 <p align="center">
 <a href="https://www.curseforge.com/minecraft/mc-mods/boat-item-view/files">
-<img src="https://i.imgur.com/WEpq69d.png" alt="drawing" width="250" height="250"/>
+<img src="https://i.imgur.com/pHNC67p.png" alt="drawing" width="250" height="250"/>
 </a>
 </p>
 </div>
@@ -16,7 +16,7 @@ The Boat Item View Mod is a client-side only Minecraft mod that allows you to vi
   <b>Links:</b>
   <br>
   <a href="https://www.curseforge.com/minecraft/mc-mods/boat-item-view">Download (Fabric)</a> |
-  <a href="https://www.curseforge.com/minecraft/mc-mods/boat-item-view-forge">Download (Forge)</a>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/boat-item-view-forge">Download (Forge/Neoforge)</a>
   <br>
   <a href="https://modrinth.com/mod/boat-item-view">Alternate Download (Modrinth)</a>  
 </p>

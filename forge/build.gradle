@@ -1,0 +1,179 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "me.shedaniel.unified-publishing" version "0.1.+"
+}
+architectury {
+    platformSetupLoomIde()
+    forge();
+}
+//Use the existing fabric data generator for resource pack data
+def generatedResources = project(":fabric").file("src/generated/resources")
+
+sourceSets {
+    main {
+        resources.srcDir generatedResources
+    }
+}
+
+unifiedPublishing {
+    project {
+        displayName = "[Forge] - ${rootProject.mod_name} - v$project.version"
+        releaseType = "release"
+        changelog = new File("${rootProject.projectDir}/changelog.md").text
+        gameVersions = ["$rootProject.minecraft_version"]
+        mainPublication tasks.remapJar
+        gameLoaders = ["forge"]
+        relations {
+            optional {
+                curseforge = "modmenu"
+                modrinth = "modmenu"
+            }
+        }
+
+        var CURSE_API_KEY = project.findProperty("curseforge_publish") ?: System.getenv("curseforge_publish") ?: ""
+        if (CURSE_API_KEY != "") {
+            curseforge {
+                token = CURSE_API_KEY
+                id = "482444"
+                gameVersions.addAll "Java 21", "$rootProject.minecraft_version"
+            }
+        }
+
+        var MODRINTH_TOKEN = project.findProperty("modrinth_publish") ?: System.getenv("modrinth_publish") ?: ""
+        if (MODRINTH_TOKEN != "") {
+            modrinth {
+                token = MODRINTH_TOKEN
+                id = "BdKIyOLe"
+                version = "$project.version+$project.name"
+            }
+        }
+    }
+}
+
+
+remapJar {
+    atAccessWideners.add("${rootProject.mod_id}.accesswidener")
+}
+
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    //Use Neoforge data generators for datapack related data
+    runs {
+        data {
+            data()
+            programArgs "--all", "--mod", "${mod_id}"
+            programArgs "--output", project(":neoforge").file("src/generated/resources").absolutePath
+            programArgs "--existing", project(":common").file("src/main/resources/").absolutePath
+        }
+    }
+
+}
+
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+}
+
+repositories {
+    maven { url "https://maven.minecraftforge.net/" }
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
+
+//    //Need to use the forge version of the api here if common module uses Neoforge API, as specified by https://github.com/Fuzss/forgeconfigapiport/wiki/Getting-Started-on-1.20.2-and-Up#selecting-a-version
+//    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}"
+//    include "fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}"
+
+    modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+
+}
+
+def resourceTargets = ["META-INF/mods.toml"]
+def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
+def replaceProperties = [mod_id: mod_id,
+                         mod_name: mod_name,
+                         mod_version: mod_version,
+                         mod_authors: mod_authors,
+                         credits:credits,
+                         mod_description: mod_description,
+                         homepage:homepage,
+                         logo_file:logo_file,
+                         issue_tracker_url:issue_tracker_url,
+                         license: license,
+                         forge_version_range: forge_version_range,
+                         forge_minecraft_version_range: forge_minecraft_version_range,
+                         forge_loader_version_range: forge_loader_version_range,
+
+]
+processResources {
+    inputs.properties replaceProperties
+    replaceProperties.put 'project', project
+
+    filesMatching(resourceTargets) {
+        expand replaceProperties
+    }
+
+    intoTargets.each { target ->
+        if (file(target).exists()) {
+            copy {
+                from(sourceSets.main.resources) {
+                    include resourceTargets
+                    expand replaceProperties
+                }
+                into target
+            }
+        }
+    }
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+tasks.withType(JavaCompile) {
+    // ensure that the encoding is set to UTF-8, no matter what the system default is
+    // this fixes some edge cases with special characters not displaying correctly // see [http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html](http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html)
+    // If Javadoc is generated, this must be specified in that task too.
+    options.encoding = "UTF-8"
+    options.release = 21
+}
+publishing {
+    publications {
+        mavenForge(MavenPublication) {
+            artifactId = archives_base_name + "_" + project.name
+            from components.java
+        }
+    }
+
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_authors}"
+  ],
+  "contributors": [
+    "${credits}"
+  ],
+  "contact": {
+    "homepage": "${homepage}",
+    "sources": "${sources}"
+  },
+
+  "license": "${license}",
+  "icon": "${logo_file}",
+
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "${main_mod_class}"
+    ],
+    "modmenu":[
+      "me.soapsuds.boatiview.compat.ModMenuConfig"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json",
+    "${mod_id}-common.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": "${fabric_loader_version_range}",
+    "fabric": "${fabric_api_version_range}",
+    "minecraft": "${fabric_minecraft_version_range}",
+    "java": "${fabric_java_version_range}"
+  },
+  "suggests": {
+    "cloth-config2": "*",
+    "mod-menu":"*"
+  }
+}

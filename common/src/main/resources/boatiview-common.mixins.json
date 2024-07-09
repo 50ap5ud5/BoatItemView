@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "me.soapsuds.boatiview.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "FirstPersonRendererMixin"
+  ],
+  "minVersion": "0.8",
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

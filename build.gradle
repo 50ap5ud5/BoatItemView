@@ -1,153 +1,78 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
-    id 'maven-publish'
+    id "architectury-plugin" version "3.4-SNAPSHOT"
+    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
-	mixin {
-      defaultRefmapName = "${mod_id}.refmap.json"
+architectury {
+    minecraft = rootProject.minecraft_version
+}
+
+subprojects {
+    apply plugin: "dev.architectury.loom"
+
+    loom {
+        silentMojangMappingsLicense()
     }
-}
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.jar_name + "-" + project.minecraft_version
-version = project.mod_version
-group = project.maven_group
-
-repositories {
-    //Add Shedaniel's Cloth Config and Mod Menu mavens by default
-    maven { url "https://maven.shedaniel.me/" }
-    maven {
-        url "https://maven.terraformersmc.com/releases/"
-        content {
-            includeGroup "com.terraformersmc"
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        mappings loom.layered() {
+            officialMojangMappings()
+            // parchment("org.parchmentmc.data:parchment-${rootProject.mappings}")
         }
+        implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
     }
 }
 
-dependencies {
 
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
 
-    /*You can use either Yarn Mappings or Mojang Official Mappings.
-      However you need to be aware of Mojang's license on their mappings https://minecraft.fandom.com/wiki/Obfuscation_map
-    */
+    archivesBaseName = rootProject.mod_id
+    version = "${rootProject.mod_version}-${rootProject.minecraft_version}"
+    group = rootProject.maven_group
 
-    //mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    mappings loom.officialMojangMappings()
-
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-    // You may need to force-disable transitiveness on them.
-
-    //Compile against Cloth Config by default
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    modCompileOnly("com.terraformersmc:modmenu:${mod_menu_version}") {
-        transitive(false)
-    }
-    //modRuntime("com.terraformersmc:modmenu:${mod_menu_version}") {
-    //    transitive(false)
-    //}
-
-    //Package Cloth Config inside the final built jar. This can increase the jar size by quite a bit so disable it if this not intended
-    include "me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}"
-}
-
-/* IntelliJ Project Import
- * The Mixin annotation process does not have an obfuscation source when running through the IntelliJ compiler,
- * Thus we have to prevent it from being activated as part of importing this Gradle project into IntelliJ.
- */
-if (System.getProperty("idea.sync.active") == "true") {
-    afterEvaluate {
-        tasks.withType(JavaCompile).all {
-            it.options.annotationProcessorPath = files()
-        }
-    }
-}
-
-def resourceTargets = ["fabric.mod.json"]
-def intoTargets = ["$buildDir/out/production/resources/", "$buildDir/out/production/${project.name}.main/", "$buildDir/bin/main/"]
-def replaceProperties = [mod_id: mod_id, mod_name: mod_name, mod_version: mod_version,
-                   main_mod_class: main_mod_class,
-                   mod_authors: mod_authors, mod_description: mod_description,
-                   homepage:homepage, sources:sources, icon_file:icon_file,
-                   license: license,
-                   java_version_range:java_version_range,
-                   fabric_version_range: fabric_version_range, minecraft_version_range: minecraft_version_range,
-                   fabric_loader_version_range: fabric_loader_version_range]
-processResources {
-    inputs.properties replaceProperties
-    replaceProperties.put 'project', project
-
-    filesMatching(resourceTargets) {
-        expand replaceProperties
-    }
-
-    intoTargets.each { target ->
-        if (file(target).exists()) {
-            copy {
-                from(sourceSets.main.resources) {
-                    include resourceTargets
-                    expand replaceProperties
-                }
-                into target
-            }
-        }
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    // ensure that the encoding is set to UTF-8, no matter what the system default is
-    // this fixes some edge cases with special characters not displaying correctly
-    // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-    // If Javadoc is generated, this must be specified in that task too.
-    it.options.encoding = "UTF-8"
-
-    // Minecraft 1.18 upwards uses Java 17.
-    it.options.release = 17
-}
-
-java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
-    withSourcesJar()
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.jar_name}"}
-    }
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            // add all the jars that should be included when publishing to maven
-            artifact(remapJar) {
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
+        maven {
+            url "https://cursemaven.com"
+        }
+
+        maven {
+            name = "Forge Config API Port"
+            url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+        }
+
+        maven {
+            name = "Cloth Config Maven"
+            url = "https://maven.shedaniel.me/"
+        }
+
+        maven {
+            name = "Mod Menu Maven"
+            url = "https://maven.terraformersmc.com/"
+        }
+
+        maven { url 'https://jitpack.io' }
+
+        flatDir {
+            dirs '../modlibs'
+        }
+
     }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.release = 21
+    }
+
+    java {
+        withSourcesJar()
+    }
+}
+
+task publishMeEverywhere(){
+    dependsOn ':neoforge:publishUnified'
+    dependsOn ':fabric:publishUnified'
 }
