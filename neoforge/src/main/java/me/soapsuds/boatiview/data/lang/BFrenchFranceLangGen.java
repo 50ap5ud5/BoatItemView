@@ -3,9 +3,9 @@ package me.soapsuds.boatiview.data.lang;
 import me.soapsuds.boatiview.util.BTranslationKeys;
 import net.minecraft.data.PackOutput;
 
-public class BFrenchFranceGen extends BEnglishLangGen {
+public class BFrenchFranceLangGen extends BEnglishLangGen {
 
-    public BFrenchFranceGen(PackOutput out) {
+    public BFrenchFranceLangGen(PackOutput out) {
         super(out, "fr_fr");
     }
 

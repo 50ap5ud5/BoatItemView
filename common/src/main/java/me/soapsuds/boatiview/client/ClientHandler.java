@@ -3,7 +3,6 @@ package me.soapsuds.boatiview.client;
 
 import me.soapsuds.boatiview.BoatItemView;
 import me.soapsuds.boatiview.config.BConfig;
-import me.soapsuds.boatiview.config.BConfigFile;
 import me.soapsuds.boatiview.util.BConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -16,12 +15,19 @@ public class ClientHandler {
     
     public static void modifyHandRender(LocalPlayer clientplayerentity, ItemStack itemstack, ItemStack itemstack1) {
         BConfig config = BoatItemView.getConfig();
-        if (config.clientConfig().showHandsInMovingBoat()) {
+        if (config.CLIENT.SHOW_HANDS.getAsBoolean()) {
             if (clientplayerentity.isHandsBusy()) { //Do another check if the hands are busy because our mixin is injected at the method call
                 boolean showHandsMainHand = false;
                 boolean showHandsOffHand = false;
-                for (String entry : config.clientConfig().itemsToShowInMovingBoat()) {
-                	if(entry.endsWith("*")) { //Handle entire modids by using a wildcard character
+                for (String entry : config.CLIENT.WHITELISTED_ITEMS.get()) {
+                    if (entry.equals("*")){ //Handle allowing every item from all mods
+                        showHandsMainHand = true;
+                        showHandItem(itemstack, true);
+                        showHandsOffHand = true;
+                        showHandItem(itemstack1, false);
+                        break;
+                    }
+                    if(entry.endsWith("*")) { //Handle entire modids by using a wildcard character
                 		String namespace = entry.substring(0, entry.indexOf(':'));
                 	    ResourceLocation mainHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack.getItem());
                 	    ResourceLocation offHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack1.getItem());

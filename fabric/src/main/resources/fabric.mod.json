@@ -22,9 +22,6 @@
   "entrypoints": {
     "main": [
       "${main_mod_class}"
-    ],
-    "modmenu":[
-      "me.soapsuds.boatiview.compat.ModMenuConfig"
     ]
   },
   "mixins": [
@@ -39,7 +36,6 @@
     "java": "${fabric_java_version_range}"
   },
   "suggests": {
-    "cloth-config2": "*",
-    "mod-menu":"*"
+    "forgeconfigscreens":"*"
   }
 }

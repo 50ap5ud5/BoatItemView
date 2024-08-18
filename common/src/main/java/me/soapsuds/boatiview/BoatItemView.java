@@ -12,12 +12,16 @@ public class BoatItemView {
 
 	public static Logger LOGGER = LogManager.getLogger(MODID);
 
+	private static BConfig CONFIG = null;
+
 	public BoatItemView() {
 
 	}
 
-	@ExpectPlatform
+
 	public static BConfig getConfig(){
-		throw new AssertionError();
+		if(CONFIG == null)
+			CONFIG = new BConfig();
+		return CONFIG;
 	}
 }

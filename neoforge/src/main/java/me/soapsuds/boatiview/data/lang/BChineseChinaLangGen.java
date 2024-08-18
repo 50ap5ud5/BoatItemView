@@ -3,9 +3,9 @@ package me.soapsuds.boatiview.data.lang;
 import me.soapsuds.boatiview.util.BTranslationKeys;
 import net.minecraft.data.PackOutput;
 
-public class BChineseChinaGen extends BEnglishLangGen {
+public class BChineseChinaLangGen extends BEnglishLangGen {
 
-    public BChineseChinaGen(PackOutput out) {
+    public BChineseChinaLangGen(PackOutput out) {
         super(out, "zh_cn");
     }
 

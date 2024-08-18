@@ -82,14 +82,14 @@ dependencies {
 
 
     // Forge Config API Port
-//    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
-//    include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+    include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
 
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-
-    include "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
+//    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
+//        exclude(group: "net.fabricmc.fabric-api")
+//    }
+//
+//    include "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
 
     modCompileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") {
         transitive(false)
