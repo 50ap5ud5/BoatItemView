@@ -1,6 +1,6 @@
 package me.soapsuds.boatiview;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+
 import me.soapsuds.boatiview.config.BConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

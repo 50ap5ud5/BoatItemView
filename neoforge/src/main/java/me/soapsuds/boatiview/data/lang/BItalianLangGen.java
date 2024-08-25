@@ -6,7 +6,7 @@ import net.minecraft.data.PackOutput;
 public class BItalianLangGen extends BEnglishLangGen {
 
     public BItalianLangGen(PackOutput out) {
-        super(out, "es_es");
+        super(out, "it_it");
     }
 
 	@Override

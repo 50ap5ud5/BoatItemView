@@ -13,7 +13,7 @@ displayURL = "${homepage}" #optional
 logoFile = "${logo_file}" #optional
 logoBlur=false
 credits = "${credits}"
-authors = "${mod_authors}"
+authors = "${mod_author}"
 description = '''${mod_description}'''
 #displayTest=""
 
@@ -31,6 +31,6 @@ side = "CLIENT" # Physical side this dependency is applied on - BOTH, CLIENT or 
 [[dependencies."${mod_id}"]]
 modId = "minecraft"
 type="required"
-versionRange = "${neoforge_minecraft_version_range}"
+versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"

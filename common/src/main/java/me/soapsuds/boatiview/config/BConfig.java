@@ -28,7 +28,7 @@ public class BConfig {
 			SHOW_HANDS = builder.comment("Toggle whether the hand should be rendered whilst the boat is moving").translation(BTranslationKeys.CONFIG_SHOW_HANDS).define("show_hands", true);
 			WHITELISTED_ITEMS = builder.comment("Items that will remain displayed in hand. Adding the character '*' after a Mod ID will include all items from the mod. E.g. 'modid:*'. If no Mod ID is specified before the '*' character, all items will be included. E.g. '*'")
 					.translation(BTranslationKeys.CONFIG_WHITELIST_ITEMS)
-					.defineList("whitelisted_items", Lists.newArrayList("minecraft:filled_map"), String.class::isInstance);
+					.defineList("whitelisted_items", Lists.newArrayList("minecraft:filled_map"), () -> "namespace:item_id", String.class::isInstance);
 			builder.pop();
 		}
 
