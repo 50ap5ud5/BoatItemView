@@ -19,20 +19,20 @@ public class BoatItemViewImpl {
 	private static BConfig CONFIG = null;
 
 	public BoatItemViewImpl(IEventBus modEventBus, ModContainer modContainer) {
-		modEventBus.addListener(this::onInitializeDataGenerator);
+		modEventBus.addListener(this::onGatherData);
 
 		modContainer.registerConfig(ModConfig.Type.CLIENT, BConfig.CLIENT_SPEC);
 	}
 
-	public void onInitializeDataGenerator(GatherDataEvent e) {
+	public void onGatherData(GatherDataEvent.Client e) {
 		DataGenerator generator = e.getGenerator();
 		ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
-		generator.addProvider(e.includeClient(), new BEnglishLangGen(generator.getPackOutput()));
-		generator.addProvider(e.includeClient(), new BChineseChinaLangGen(generator.getPackOutput()));
-		generator.addProvider(e.includeClient(), new BFrenchFranceLangGen(generator.getPackOutput()));
-		generator.addProvider(e.includeClient(), new BPortugueseBrazilLangGen(generator.getPackOutput()));
-		generator.addProvider(e.includeClient(), new BSpanishLangGen(generator.getPackOutput()));
-		generator.addProvider(e.includeClient(), new BSpanishMexicanLangGen(generator.getPackOutput()));
-		generator.addProvider(e.includeClient(), new BItalianLangGen(generator.getPackOutput()));
+		generator.addProvider(true, new BEnglishLangGen(generator.getPackOutput()));
+		generator.addProvider(true, new BChineseChinaLangGen(generator.getPackOutput()));
+		generator.addProvider(true, new BFrenchFranceLangGen(generator.getPackOutput()));
+		generator.addProvider(true, new BPortugueseBrazilLangGen(generator.getPackOutput()));
+		generator.addProvider(true, new BSpanishLangGen(generator.getPackOutput()));
+		generator.addProvider(true, new BSpanishMexicanLangGen(generator.getPackOutput()));
+		generator.addProvider(true, new BItalianLangGen(generator.getPackOutput()));
 	}
 }

@@ -15,6 +15,6 @@ public class BSpanishMexicanLangGen extends BEnglishLangGen {
 	    this.addConfigTranslations(BTranslationKeys.CONFIG_SHOW_HANDS, "Objetos que se mostraran cuando el barco esté en movimiento");
         this.addConfigTranslations(BTranslationKeys.CONFIG_WHITELIST_ITEMS, "Mostrar objetos mientras el barco se mueve");
         //Config Name for Cloth Config mod used in the Fabric version
-        this.add(BTranslationKeys.CONFIG_TITLE, "Boat Item View");
+//        this.add(BTranslationKeys.CONFIG_TITLE, "Boat Item View");
 	}
 }

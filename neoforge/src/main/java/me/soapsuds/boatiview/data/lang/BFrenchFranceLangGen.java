@@ -15,6 +15,6 @@ public class BFrenchFranceLangGen extends BEnglishLangGen {
 	    this.addConfigTranslations(BTranslationKeys.CONFIG_SHOW_HANDS, "Montrer les items dans le bateau en mouvement");
         this.addConfigTranslations(BTranslationKeys.CONFIG_WHITELIST_ITEMS, "Items à afficher dans le bateau pendant la nagigation");
         //Config Name for Cloth Config mod used in the Fabric version
-        this.add(BTranslationKeys.CONFIG_TITLE, "Boat Item View");
+//        this.add(BTranslationKeys.CONFIG_TITLE, "Boat Item View");
 	}
 }

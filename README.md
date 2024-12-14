@@ -23,11 +23,24 @@ The Boat Item View Mod is a client-side only Minecraft mod that allows you to vi
 
 ## Dependencies
 ### Fabric
+
+#### 1.21 and above
+- <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">Fabric API (Required)</a>
+- <a href="https://www.curseforge.com/minecraft/mc-mods/forge-config-api-port-fabric">Forge Config API Port (Required, Prepackaged)</a>
+- <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional)</a>
+
+#### 1.20 and below
 - <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">Fabric API (Required)</a>
 - <a href="https://www.curseforge.com/minecraft/mc-mods/cloth-config">Cloth Config (Required, Prepackaged)</a>
-- <a href="https://www.curseforge.com/minecraft/mc-mods/modmenu">Mod Menu (Optional)</a>
+- <a href="https://modrinth.com/mod/modmenu">Mod Menu (Optional)</a>
+  
 
 ### Forge
+- <a href="https://www.curseforge.com/minecraft/mc-mods/forge-config-api-port-fabric">Forge Config API Port (Required, Prepackaged)</a>
+- <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional, provides Config GUI)</a>
+
+### Neoforge
+- <a href="https://www.curseforge.com/minecraft/mc-mods/forge-config-api-port-fabric">Forge Config API Port (Required, Prepackaged)</a>
 - <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional, provides Config GUI)</a>
 
 ## Contributors

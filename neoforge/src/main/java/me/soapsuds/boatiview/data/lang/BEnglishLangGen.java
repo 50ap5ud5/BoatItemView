@@ -25,11 +25,11 @@ public class BEnglishLangGen extends LanguageProvider {
 	    this.addConfigTranslations(BTranslationKeys.CONFIG_SHOW_HANDS, "Show Items in Moving Boat");
         this.addConfigTranslations(BTranslationKeys.CONFIG_WHITELIST_ITEMS, "Items to display in Moving Boat");
         //Config Name for Cloth Config mod used in the Fabric version
-        this.add(BTranslationKeys.CONFIG_TITLE, "Boat Item View");
+//        this.add(BTranslationKeys.CONFIG_TITLE, "Boat Item View");
 	}
 
     protected void addConfigTranslations(String key, String translation){
-        this.add(BTranslationKeys.configOption(key, BConstants.ConfigType.CLOTH), translation);
+//        this.add(BTranslationKeys.configOption(key, BConstants.ConfigType.CLOTH), translation);
         this.add(BTranslationKeys.configOption(key, BConstants.ConfigType.NEOFORGE), translation);
     }
 

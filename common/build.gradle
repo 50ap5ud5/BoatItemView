@@ -6,13 +6,13 @@ plugins {
 neoForge {
     neoFormVersion = rootProject.neo_form_version
     // Automatically enable AccessTransformers if the file exists
-    def at = file('src/main/resources/META-INF/accesstransformer_neoforge.cfg')
+    def at = file('src/main/resources/META-INF/accesstransformercfg')
     if (at.exists()) {
-        accessTransformers.add(at.absolutePath)
+        accessTransformers.from(at.absolutePath)
     }
     parchment {
-        minecraftVersion = parchment_minecraft_version
-        mappingsVersion = parchment_version
+        minecraftVersion = "${rootProject.parchment_minecraft_version}"
+        mappingsVersion = "${rootProject.parchment_version}"
     }
 }
 
@@ -23,10 +23,10 @@ repositories {
 
 dependencies {
 
-    compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
+    compileOnly group: 'org.spongepowered', name: 'mixin', version: rootProject.mixin_version
+
     // fabric and neoforge both bundle mixinextras, so it is safe to use it in common
-    compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
-    annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${rootProject.mixin_extras_version}"))
 
     // Forge Config API Port
     compileOnly "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:${rootProject.forge_config_api_port_version}"

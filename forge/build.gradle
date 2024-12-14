@@ -7,15 +7,14 @@ plugins {
 
 
 base {
-    archivesName = "${mod_name}-forge-${minecraft_version}"
-    version = "${rootProject.mod_version}-${rootProject.minecraft_version}"
+    archivesName = "${mod_name}-${project.name}-${minecraft_version}"
+    version = "${rootProject.mod_version}"
     group = rootProject.maven_group
 }
 
 mixin {
     config("${mod_id}.common.mixins.json")
 }
-
 
 //Use the existing Neoforge data generator for resource pack data
 def generatedResources = project(":neoforge").file("src/generated/resources")
@@ -28,7 +27,6 @@ sourceSets {
 
 repositories {
     maven { url "https://maven.minecraftforge.net/" }
-    maven { url "https://maven.architectury.dev/" }
 }
 
 
@@ -91,7 +89,7 @@ minecraft {
 dependencies {
     minecraft  "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-//    annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
+    annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
 
     // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transitive dependencies request 6.0+
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
@@ -101,18 +99,32 @@ dependencies {
 
 //    implementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
+    //MixinExtras
+    //Dev runtime
+//    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${rootProject.mixin_extras_version}"))
+//    //Prod runtime
+//    implementation(jarJar("io.github.llamalad7:mixinextras-forge:${rootProject.mixin_extras_version}")) {
+//        jarJar.ranged(it, "[0.4.1,)")
+//    }
+
     //Use Neoforge Config specific for Forge as specified by https://github.com/Fuzss/forgeconfigapiport/wiki/Getting-Started-on-1.20.2-and-Up#selecting-a-version
-    api("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}")
-    jarJar "fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}"
+    compileOnly ("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}")
+    jarJar ("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}")
+
 
 }
 
+
 publishing {
     publications {
-        mavenForge(MavenPublication) {
-            artifactId = archives_base_name + "_" + project.name
-            from components.java
+        mavenJava(MavenPublication) {
+            fg.component(it)
         }
     }
+}
 
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
 }

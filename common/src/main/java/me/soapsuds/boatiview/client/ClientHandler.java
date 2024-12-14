@@ -8,8 +8,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
 
 public class ClientHandler {
     
@@ -37,7 +37,7 @@ public class ClientHandler {
                 	        showHandsOffHand = showHandItem(itemstack1, false);
                 	}
                 	else { //Otherwise, check by individual item IDs
-                	    Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(entry));
+                	    ResourceLocation item = ResourceLocation.parse(entry);
                         if (item != null) {
                             showHandsMainHand = showHandItem(itemstack, item, true);
                             showHandsOffHand = showHandItem(itemstack1, item, false);
@@ -64,8 +64,8 @@ public class ClientHandler {
 		return true;
     }
     /** Alternative version of above method with an equality check by Item instance*/
-    private static boolean showHandItem(ItemStack handStack, Item blacklisted, boolean mainHand) {
-    	if (handStack.getItem() == blacklisted) {
+    private static boolean showHandItem(ItemStack handStack, ResourceLocation whitelisted, boolean mainHand) {
+    	if (BuiltInRegistries.ITEM.getKey(handStack.getItem()).equals(whitelisted)) {
     		return showHandItem(handStack, mainHand);
     	}
     	return false;

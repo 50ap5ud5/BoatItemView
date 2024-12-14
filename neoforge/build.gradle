@@ -7,14 +7,14 @@ plugins {
 neoForge {
     version = rootProject.neoforge_version
     // Automatically enable neoforge AccessTransformers if the file exists
-    def at = project(':common').file('src/main/resources/META-INF/accesstransformer_neoforge.cfg')
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
-        accessTransformers.add(at.absolutePath)
+        accessTransformers.from(at.absolutePath)
     }
-    parchment {
-        minecraftVersion = rootProject.parchment_minecraft_version
-        mappingsVersion = rootProject.parchment_version
-    }
+//    parchment {
+//        minecraftVersion = rootProject.parchment_minecraft_version
+//        mappingsVersion = rootProject.parchment_version
+//    }
     runs {
         configureEach {
             systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
@@ -24,7 +24,9 @@ neoForge {
             client()
         }
         data {
-            data()
+            clientData()
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
         server {
             server()
