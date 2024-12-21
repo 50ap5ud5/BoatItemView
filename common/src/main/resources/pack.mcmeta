@@ -1,6 +1,6 @@
 {
     "pack": {
         "description": "${mod_name} resources",
-        "pack_format": $neoforge_resource_pack_format
+        "pack_format": $resource_pack_format
     }
 }

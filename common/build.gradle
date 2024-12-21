@@ -6,7 +6,7 @@ plugins {
 neoForge {
     neoFormVersion = rootProject.neo_form_version
     // Automatically enable AccessTransformers if the file exists
-    def at = file('src/main/resources/META-INF/accesstransformercfg')
+    def at = file('src/main/resources/META-INF/accesstransformer_common.cfg')
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
     }
@@ -29,7 +29,7 @@ dependencies {
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${rootProject.mixin_extras_version}"))
 
     // Forge Config API Port
-    compileOnly "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:${rootProject.forge_config_api_port_version}"
+//    compileOnly "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:${rootProject.forge_config_api_port_version}"
 
     //Cloth Config common module
 //    modCompileOnlyApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")

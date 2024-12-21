@@ -1,14 +1,17 @@
 package me.soapsuds.boatiview.neoforge;
 
 import me.soapsuds.boatiview.BoatItemView;
-import me.soapsuds.boatiview.config.BConfig;
+import me.soapsuds.boatiview.neoforge.config.BConfig;
 import me.soapsuds.boatiview.data.lang.*;
 import net.minecraft.data.DataGenerator;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
@@ -16,12 +19,14 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 @Mod(BoatItemView.MODID)
 public class BoatItemViewImpl {
 
-	private static BConfig CONFIG = null;
-
-	public BoatItemViewImpl(IEventBus modEventBus, ModContainer modContainer) {
+	public BoatItemViewImpl(IEventBus modEventBus, ModContainer modContainer, Dist dist) {
 		modEventBus.addListener(this::onGatherData);
 
 		modContainer.registerConfig(ModConfig.Type.CLIENT, BConfig.CLIENT_SPEC);
+
+		if (dist.isClient()) {
+			modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new); //Enables Neoforge config screen
+		}
 	}
 
 	public void onGatherData(GatherDataEvent.Client e) {

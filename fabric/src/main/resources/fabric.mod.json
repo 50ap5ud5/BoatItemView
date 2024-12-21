@@ -22,13 +22,16 @@
   "entrypoints": {
     "main": [
       "${main_mod_class}"
+    ],
+    "modmenu": [
+      "${mod_menu_integration_class}"
     ]
   },
   "mixins": [
-    "${mod_id}.mixins.json",
-    "${mod_id}-common.mixins.json"
+    "${mod_id}.common.mixins.json",
+    "${mod_id}.fabric.mixins.json"
   ],
-
+  "accessWidener" : "${mod_id}.accesswidener",
   "depends": {
     "fabricloader": "${fabric_loader_version_range}",
     "fabric": "${fabric_api_version_range}",
@@ -36,6 +39,7 @@
     "java": "${fabric_java_version_range}"
   },
   "suggests": {
-    "forgeconfigscreens":"*"
+    "cloth-config2": "*",
+    "modmenu":"*"
   }
 }

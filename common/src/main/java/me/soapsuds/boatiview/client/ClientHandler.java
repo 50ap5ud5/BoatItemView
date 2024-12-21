@@ -1,8 +1,7 @@
 package me.soapsuds.boatiview.client;
 
 
-import me.soapsuds.boatiview.BoatItemView;
-import me.soapsuds.boatiview.config.BConfig;
+import me.soapsuds.boatiview.platform.Services;
 import me.soapsuds.boatiview.util.BConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -10,16 +9,18 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 
 public class ClientHandler {
     
     public static void modifyHandRender(LocalPlayer clientplayerentity, ItemStack itemstack, ItemStack itemstack1) {
-        BConfig config = BoatItemView.getConfig();
-        if (config.CLIENT.SHOW_HANDS.getAsBoolean()) {
+        if (Services.CONFIG_HELPER.showHands()) {
             if (clientplayerentity.isHandsBusy()) { //Do another check if the hands are busy because our mixin is injected at the method call
                 boolean showHandsMainHand = false;
                 boolean showHandsOffHand = false;
-                for (String entry : config.CLIENT.WHITELISTED_ITEMS.get()) {
+                List<? extends String> entries = Services.CONFIG_HELPER.whitelistedItems();
+                for (String entry : entries) {
                     if (entry.equals("*")){ //Handle allowing every item from all mods
                         showHandsMainHand = true;
                         showHandItem(itemstack, true);
@@ -35,6 +36,7 @@ public class ClientHandler {
                 	        showHandsMainHand = showHandItem(itemstack, true);
                 	    if (offHandItemLoc.getNamespace().equals(namespace))
                 	        showHandsOffHand = showHandItem(itemstack1, false);
+                        break;
                 	}
                 	else { //Otherwise, check by individual item IDs
                 	    ResourceLocation item = ResourceLocation.parse(entry);
@@ -55,6 +57,7 @@ public class ClientHandler {
             }
         }
     }
+
     /** Handle setting the hand's item (so the hand doesn't magically appear empty) and return a value for if we should display the hand*/
     private static boolean showHandItem(ItemStack handStack, boolean mainHand) {
 		if (mainHand)

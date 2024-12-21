@@ -2,12 +2,13 @@ plugins {
     id 'multiloader-loader'
     id 'net.neoforged.moddev'
     id "com.github.johnrengelman.shadow" version "8.1.1"
+    id 'net.darkhax.curseforgegradle'
+    id 'com.modrinth.minotaur'
 }
-
 neoForge {
     version = rootProject.neoforge_version
     // Automatically enable neoforge AccessTransformers if the file exists
-    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer_common.cfg')
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
     }
@@ -59,12 +60,39 @@ dependencies {
 //    common(project(path: ":common", configuration: "namedElements")) { transitive false }
 //    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
 
-    //Required for compiling as we use Cloth config for Fabric but reuse the same object for Neoforge native Config
-    //We don't want to include Cloth config for the Neoforge version
-//    modApi("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
+}
 
-//    modCompileOnly "curse.maven:configured-457570:${rootProject.configured_version}"
-//    modRuntimeOnly "curse.maven:configured-457570:${rootProject.configured_version}"
-//    include "me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}"
+if (System.getenv().CURSEFORGE_PUBLISH) {
+    task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+        apiToken = System.getenv().CURSEFORGE_PUBLISH
 
+        def mainFile = upload(curseforge_id_forge, jar)
+        mainFile.releaseType = 'release'
+        mainFile.addGameVersion "Neoforge"
+        mainFile.addGameVersion "${minecraft_version}"
+        mainFile.addGameVersion "Java 21"
+        mainFile.addGameVersion('Client')
+
+        mainFile.changelog = file("$project.rootDir/changelog.md")
+        mainFile.changelogType = 'markdown'
+
+        mainFile.addRequirement("configured")
+    }
+}
+
+
+if (System.getenv().MODRINTH_PUBLISH) {
+    String fileContents = file("$project.rootDir/changelog.md").text
+    modrinth {
+        token = System.getenv().MODRINTH_PUBLISH
+        projectId = project.modrinth_id
+        versionType = "release"
+        versionName = "${mod_name}-${project.name}-${minecraft_version}"
+        versionNumber = project.version
+        uploadFile = jar
+        changelog = fileContents
+        gameVersions = ["${minecraft_version}"]
+        loaders = ["neoforge"]
+
+    }
 }

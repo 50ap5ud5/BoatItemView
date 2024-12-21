@@ -4,7 +4,7 @@ plugins {
 }
 
 base {
-    archivesName = "${mod_id}-${project.name}-${minecraft_version}"
+    archivesName = "${mod_id}-${project.name}" //Defines the jar name. The minecraft version is appended on the end at a later step
 }
 
 java {
@@ -77,6 +77,9 @@ jar {
                 'Implementation-Version': project.jar.archiveVersion,
                 'Implementation-Vendor' : mod_author,
                 'Built-On-Minecraft'    : minecraft_version,
+                'Built-On-Java' : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'Timestamp' : System.currentTimeMillis(),
                 'MixinConfigs' : "${mod_id}.common.mixins.json"
         ])
     }
@@ -88,6 +91,19 @@ processResources {
             'group' : project.group, //Else we target the task's group.
             'minecraft_version' : minecraft_version,
             'minecraft_version_range' : minecraft_version_range,
+            'resource_pack_format' : resource_pack_format,
+            'mod_version' : mod_version,
+            'mod_name' : mod_name,
+            'mod_author': mod_author,
+            'mod_id' : mod_id,
+            'license' : license,
+            'mod_description' : mod_description,
+            'credits' : credits,
+            'java_version' : java_version,
+            'logo_file' : logo_file,
+            'sources' : sources,
+            'homepage' : homepage,
+            'issue_tracker_url' : issue_tracker_url,
             'fabric_api_version' : fabric_api_version,
             'fabric_loader_version' : fabric_loader_version,
             'fabric_loader_version_range' : fabric_loader_version_range,
@@ -95,25 +111,13 @@ processResources {
             'fabric_api_version_range' : fabric_api_version_range,
             'fabric_java_version_range' : fabric_java_version_range,
             'main_mod_class' : main_mod_class,
-            'mod_version' : mod_version,
-            'mod_name' : mod_name,
-            'mod_author': mod_author,
-            'mod_id' : mod_id,
-            'license' : license,
-            'mod_description' : mod_description,
+            'mod_menu_integration_class' : mod_menu_integration_class,
             'neoforge_version' : neoforge_version,
             'neoforge_version_range' : neoforge_version_range,
             'neoforge_loader_version_range': neoforge_loader_version_range,
-            'neoforge_resource_pack_format' : neoforge_resource_pack_format,
             "forge_version": forge_version,
             'forge_version_range' : forge_version_range,
-            "forge_loader_version_range": forge_loader_version_range,
-            'credits' : credits,
-            'java_version' : java_version,
-            'logo_file' : logo_file,
-            'sources' : sources,
-            'homepage' : homepage,
-            'issue_tracker_url' : issue_tracker_url
+            "forge_loader_version_range": forge_loader_version_range
     ]
 
     filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {

@@ -12,35 +12,27 @@ The Boat Item View Mod is a client-side only Minecraft mod that allows you to vi
 <p align="center">
   <img src="https://cf.way2muchnoise.eu/versions/482160.svg">
 </p>
-<p align="center">
-  <b>Links:</b>
-  <br>
-  <a href="https://www.curseforge.com/minecraft/mc-mods/boat-item-view">Download (Fabric)</a> |
-  <a href="https://www.curseforge.com/minecraft/mc-mods/boat-item-view-forge">Download (Forge/Neoforge)</a>
-  <br>
-  <a href="https://modrinth.com/mod/boat-item-view">Alternate Download (Modrinth)</a>  
-</p>
+
+## Download
+### Modrinth
+- <a href="https://modrinth.com/mod/boat-item-view">Modrinth (All)</a>
+### Curseforge
+- <a href="https://www.curseforge.com/minecraft/mc-mods/boat-item-view">Curseforge (Fabric)</a>
+- <a href="https://www.curseforge.com/minecraft/mc-mods/boat-item-view-forge">Curseforge (Forge/Neoforge)</a>
 
 ## Dependencies
 ### Fabric
-
-#### 1.21 and above
-- <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">Fabric API (Required)</a>
-- <a href="https://www.curseforge.com/minecraft/mc-mods/forge-config-api-port-fabric">Forge Config API Port (Required, Prepackaged)</a>
-- <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional)</a>
-
-#### 1.20 and below
 - <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">Fabric API (Required)</a>
 - <a href="https://www.curseforge.com/minecraft/mc-mods/cloth-config">Cloth Config (Required, Prepackaged)</a>
 - <a href="https://modrinth.com/mod/modmenu">Mod Menu (Optional)</a>
   
 
 ### Forge
-- <a href="https://www.curseforge.com/minecraft/mc-mods/forge-config-api-port-fabric">Forge Config API Port (Required, Prepackaged)</a>
 - <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional, provides Config GUI)</a>
 
 ### Neoforge
-- <a href="https://www.curseforge.com/minecraft/mc-mods/forge-config-api-port-fabric">Forge Config API Port (Required, Prepackaged)</a>
+Note: As of 1.21, Neoforge has included its own Config GUI, hence the need for a separate Config GUI mod may not be needed.
+
 - <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional, provides Config GUI)</a>
 
 ## Contributors

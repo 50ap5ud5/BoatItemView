@@ -1,4 +1,4 @@
-accessWidener	v2	named
+accessWidener v2 named
 accessible field net/minecraft/client/renderer/ItemInHandRenderer mainHandHeight F
 accessible field net/minecraft/client/renderer/ItemInHandRenderer offHandHeight F
 accessible field net/minecraft/client/renderer/ItemInHandRenderer mainHandItem Lnet/minecraft/world/item/ItemStack;

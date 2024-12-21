@@ -2,12 +2,8 @@ plugins {
     id 'multiloader-loader'
     id 'fabric-loom'
     id "com.github.johnrengelman.shadow" version "8.1.1"
-}
-
-base {
-    archivesName = "${mod_name}-${project.name}-${minecraft_version}"
-    version = "${rootProject.mod_version}"
-    group = rootProject.maven_group
+    id 'net.darkhax.curseforgegradle'
+    id 'com.modrinth.minotaur'
 }
 
 //Use the existing Neoforge data generator for resource pack data
@@ -21,7 +17,7 @@ sourceSets {
 
 loom {
     //Use the Access Widener File in the Common project module
-    def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
+    def aw = project(':fabric').file("src/main/resources/${mod_id}.accesswidener")
     if (aw.exists()) {
         accessWidenerPath.set(aw)
     }
@@ -81,18 +77,18 @@ dependencies {
 
 
     // Forge Config API Port
-    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
-    include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+//    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+//    include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
 
-//    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
-//        exclude(group: "net.fabricmc.fabric-api")
-//    }
-//
-//    include "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 
-//    modCompileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") {
-//        transitive(false)
-//    }
+    include "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
+
+    modCompileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") {
+        transitive(false)
+    }
     modRuntimeOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
 
 //    common(project(path: ":common", configuration: "namedElements")) { transitive false }
@@ -138,5 +134,44 @@ if (System.getProperty("idea.sync.active") == "true") {
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
+    }
+}
+
+if (System.getenv().CURSEFORGE_PUBLISH) {
+    task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+        apiToken = System.getenv().CURSEFORGE_PUBLISH
+
+        def mainFile = upload(curseforge_id_fabric, remapJar)
+        mainFile.releaseType = 'release'
+        mainFile.addGameVersion "Fabric"
+        mainFile.addGameVersion "${minecraft_version}"
+        mainFile.addGameVersion "Java 21"
+        mainFile.addGameVersion('Client')
+
+        mainFile.changelog = file("$project.rootDir/changelog.md")
+        mainFile.changelogType = 'markdown'
+
+        mainFile.addRequirement("fabric-api", "cloth-config")
+    }
+}
+
+
+if (System.getenv().MODRINTH_PUBLISH) {
+    String fileContents = file("$project.rootDir/changelog.md").text
+    modrinth {
+        token = System.getenv().MODRINTH_PUBLISH
+        projectId = modrinth_id
+        versionType = "release"
+        versionName = "${mod_name}-${project.name}-${minecraft_version}"
+        versionNumber = project.version
+        uploadFile = remapJar
+        changelog = fileContents
+        gameVersions = ["${minecraft_version}"]
+        loaders = ["fabric"]
+
+        dependencies {
+            required.project "fabric-api"
+            required.project "cloth-config"
+        }
     }
 }

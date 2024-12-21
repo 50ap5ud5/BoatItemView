@@ -1,4 +1,4 @@
-package me.soapsuds.boatiview.config;
+package me.soapsuds.boatiview.neoforge.config;
 
 import com.google.common.collect.Lists;
 import me.soapsuds.boatiview.util.BConstants;
@@ -25,9 +25,9 @@ public class BConfig {
 
 		public Client(ModConfigSpec.Builder builder) {
 			builder.push(BConstants.CONFIG_NAME);
-			SHOW_HANDS = builder.comment("Toggle whether the hand should be rendered whilst the boat is moving").translation(BTranslationKeys.CONFIG_SHOW_HANDS).define("show_hands", true);
+			SHOW_HANDS = builder.comment("Toggle whether the item in hand should be rendered whilst the boat is moving").translation(BTranslationKeys.configOption(BTranslationKeys.CONFIG_SHOW_HANDS)).define("show_hands", true);
 			WHITELISTED_ITEMS = builder.comment("Items that will remain displayed in hand. Adding the character '*' after a Mod ID will include all items from the mod. E.g. 'modid:*'. If no Mod ID is specified before the '*' character, all items will be included. E.g. '*'")
-					.translation(BTranslationKeys.CONFIG_WHITELIST_ITEMS)
+					.translation(BTranslationKeys.configOption(BTranslationKeys.CONFIG_WHITELIST_ITEMS))
 					.defineList("whitelisted_items", Lists.newArrayList("minecraft:filled_map"), () -> "namespace:item_id", String.class::isInstance);
 			builder.pop();
 		}

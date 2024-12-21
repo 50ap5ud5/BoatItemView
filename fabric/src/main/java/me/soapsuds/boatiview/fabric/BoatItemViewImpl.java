@@ -1,13 +1,14 @@
 package me.soapsuds.boatiview.fabric;
 
-
-import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
-import me.soapsuds.boatiview.BoatItemView;
-import me.soapsuds.boatiview.config.BConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigHolder;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.neoforged.fml.config.ModConfig;
+import me.soapsuds.boatiview.fabric.config.BConfig;
 
 public class BoatItemViewImpl implements ModInitializer {
+
+	public static ConfigHolder<BConfig> CONFIG;
 
 	public BoatItemViewImpl() {
 
@@ -15,7 +16,7 @@ public class BoatItemViewImpl implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		NeoForgeConfigRegistry.INSTANCE.register(BoatItemView.MODID, ModConfig.Type.CLIENT, BConfig.CLIENT_SPEC);
+		CONFIG = AutoConfig.register(BConfig.class, Toml4jConfigSerializer::new);
 	}
 
 }

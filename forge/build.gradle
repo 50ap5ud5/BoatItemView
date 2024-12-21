@@ -3,13 +3,8 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
     id "com.github.johnrengelman.shadow" version "7.1.2"
-}
-
-
-base {
-    archivesName = "${mod_name}-${project.name}-${minecraft_version}"
-    version = "${rootProject.mod_version}"
-    group = rootProject.maven_group
+    id 'net.darkhax.curseforgegradle'
+    id 'com.modrinth.minotaur'
 }
 
 mixin {
@@ -42,7 +37,7 @@ minecraft {
     // This location is hardcoded in Forge and can not be changed.
     // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
     // Forge still uses SRG names during compile time, so we cannot use the common AT's
-    def at = file("src/main/resources/META-INF/accesstransformer_forge.cfg")
+    def at = file("src/main/resources/META-INF/accesstransformer.cfg")
     if (at.exists()) {
         accessTransformer = at
     }
@@ -101,15 +96,17 @@ dependencies {
 
     //MixinExtras
     //Dev runtime
-//    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${rootProject.mixin_extras_version}"))
+//    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-forge:0.4.1"))
 //    //Prod runtime
 //    implementation(jarJar("io.github.llamalad7:mixinextras-forge:${rootProject.mixin_extras_version}")) {
-//        jarJar.ranged(it, "[0.4.1,)")
+//        jarJar.ranged(it, "[${rootProject.mixin_extras_version},)")
 //    }
-
-    //Use Neoforge Config specific for Forge as specified by https://github.com/Fuzss/forgeconfigapiport/wiki/Getting-Started-on-1.20.2-and-Up#selecting-a-version
-    compileOnly ("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}")
-    jarJar ("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}")
+//
+//    //Use Neoforge Config specific for Forge as specified by https://github.com/Fuzss/forgeconfigapiport/wiki/Getting-Started-on-1.20.2-and-Up#selecting-a-version
+//    api ("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}")
+//    implementation(jarJar("fuzs.forgeconfigapiport:forgeconfigapiport-forge:${rootProject.forge_config_api_port_version}")){
+//        jarJar.ranged(it, "[${rootProject.forge_config_api_port_version},)")
+//    }
 
 
 }
@@ -127,4 +124,40 @@ sourceSets.each {
     def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
     it.output.resourcesDir = dir
     it.java.destinationDirectory = dir
+}
+
+
+if (System.getenv().CURSEFORGE_PUBLISH) {
+    task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+        apiToken = System.getenv().CURSEFORGE_PUBLISH
+
+        def mainFile = upload(curseforge_id_forge, jar)
+        mainFile.releaseType = 'release'
+        mainFile.addGameVersion "Forge"
+        mainFile.addGameVersion "${minecraft_version}"
+        mainFile.addGameVersion "Java 21"
+        mainFile.addGameVersion('Client')
+
+        mainFile.changelog = file("$project.rootDir/changelog.md")
+        mainFile.changelogType = 'markdown'
+
+        mainFile.addRequirement("configured")
+    }
+}
+
+
+if (System.getenv().MODRINTH_PUBLISH) {
+    String fileContents = file("$project.rootDir/changelog.md").text
+    modrinth {
+        token = System.getenv().MODRINTH_PUBLISH
+        projectId = project.modrinth_id
+        versionType = "release"
+        versionName = "${mod_name}-${project.name}-${minecraft_version}"
+        versionNumber = project.version
+        uploadFile = jar
+        changelog = fileContents
+        gameVersions = ["${minecraft_version}"]
+        loaders = ["forge"]
+
+    }
 }
