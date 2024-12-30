@@ -2,10 +2,10 @@ plugins {
     // see https://fabricmc.net/develop/ for new versions
     id 'fabric-loom' version '1.7-SNAPSHOT' apply false
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
-    id 'net.neoforged.moddev' version '2.0.52-beta' apply false
-    id "net.darkhax.curseforgegradle" version "1.1.25" apply(false)
-    id "com.modrinth.minotaur" version "2.+" apply(false)
-//    id "me.shedaniel.unified-publishing" version "0.1.+"
+    id 'net.neoforged.moddev' version '2.0.72' apply false
+    id "me.modmuss50.mod-publish-plugin" version "0.8.3"
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)' apply false
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT' apply false
 }
 
 allprojects {
@@ -15,8 +15,9 @@ allprojects {
     group = rootProject.maven_group
 
     repositories {
+        mavenCentral()
         maven {
-            url "https://cursemaven.com"
+            url = "https://cursemaven.com"
         }
 
         maven {
@@ -34,7 +35,7 @@ allprojects {
             url = "https://maven.terraformersmc.com/"
         }
 
-        maven { url 'https://jitpack.io' }
+        maven { url = 'https://jitpack.io' }
 
         flatDir {
             dirs '../modlibs'
@@ -49,8 +50,104 @@ allprojects {
 
 }
 
-//task publishMeEverywhere(){
-//    dependsOn ':neoforge:publishUnified'
-//    dependsOn ':fabric:publishUnified'
-//    dependsOn ':forge:publishUnified'
-//}
+publishMods {
+    File changeLog = rootProject.file("changelog.md")
+    String changelogText = changeLog.exists() ? changeLog.text : ""
+    changelog = changelogText
+
+    type = STABLE
+
+    dryRun = true //Always enable for debug
+
+    // CurseForge options used by both Fabric and Forge
+    def cfOptions = curseforgeOptions {
+        accessToken = providers.gradleProperty("CURSEFORGE_TOKEN")
+        minecraftVersions.add("1.21.4")
+        javaVersions.add(JavaVersion.VERSION_21)
+        clientRequired = true
+        dryRun = true
+    }
+
+    // Modrinth options used by both Fabric and Forge
+    def mrOptions = modrinthOptions {
+        accessToken = providers.gradleProperty("MODRINTH_TOKEN")
+        projectId = "${modrinth_id}"
+        minecraftVersionRange {
+            start = "1.21.4"
+            end = "1.21.4" // Set to "latest" to use the latest minecraft version
+        }
+        dryRun = true
+    }
+
+    // Fabric specific options for CurseForge
+    curseforge("curseforgeFabric") {
+        from cfOptions
+        file project(":fabric")
+        projectId = "${curseforge_id_fabric}"
+        modLoaders.add("fabric")
+        requires {
+            slug = "fabric-api"
+        }
+        embeds("cloth-config")
+        optional("modmenu")
+        version = "${minecraft_version}-${mod_version}-fabric"
+        displayName = "${jar_name}-Fabric-${minecraft_version}-${mod_version}"
+    }
+
+    // Forge specific options for CurseForge
+    curseforge("curseforgeForge") {
+        from cfOptions
+        file project(":forge")
+        modLoaders.add("forge")
+        projectId = "${curseforge_id_forge}"
+        version = "${minecraft_version}-${mod_version}-forge"
+        displayName = "${jar_name}-Forge-${minecraft_version}-${mod_version}"
+    }
+
+    // Neoforge specific options for Curseforge
+    curseforge("curseforgeNeoforge") {
+        from cfOptions
+        file project(":neoforge")
+        modLoaders.add("neoforge")
+        projectId = "${curseforge_id_forge}"
+        version = "${minecraft_version}-${mod_version}-neoforge"
+        displayName = "${jar_name}-Neoforge-${minecraft_version}-${mod_version}"
+    }
+
+    // Fabric specific options for Modrinth
+    modrinth("modrinthFabric") {
+        from mrOptions
+        file project(":fabric")
+        modLoaders.add("fabric")
+        requires {
+            slug = "fabric-api"
+        }
+        embeds {
+            slug = "cloth-config"
+        }
+        optional {
+            slug = "modmenu"
+        }
+        version = "${minecraft_version}-${mod_version}-fabric"
+        displayName = "${jar_name}-Fabric-${minecraft_version}-${mod_version}"
+    }
+
+    // Forge specific options for Modrinth
+    modrinth("modrinthForge") {
+        from mrOptions
+        file project(":forge")
+        modLoaders.add("forge")
+        version = "${minecraft_version}-${mod_version}-forge"
+        displayName = "${jar_name}-Forge-${minecraft_version}-${mod_version}"
+    }
+
+    // Neoforge specific options for Modrinth
+    modrinth("modrinthNeoforge") {
+        from mrOptions
+        file project(":neoforge")
+        modLoaders.add("neoforge")
+        version = "${minecraft_version}-${mod_version}-neoforge"
+        displayName = "${jar_name}-Neoforge-${minecraft_version}-${mod_version}"
+    }
+
+}

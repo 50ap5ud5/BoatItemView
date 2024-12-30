@@ -12,7 +12,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 
@@ -31,7 +30,6 @@ public class BoatItemViewImpl {
 
 	public void onGatherData(GatherDataEvent.Client e) {
 		DataGenerator generator = e.getGenerator();
-		ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
 		generator.addProvider(true, new BEnglishLangGen(generator.getPackOutput()));
 		generator.addProvider(true, new BChineseChinaLangGen(generator.getPackOutput()));
 		generator.addProvider(true, new BFrenchFranceLangGen(generator.getPackOutput()));

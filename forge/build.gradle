@@ -1,14 +1,17 @@
 plugins {
     id 'multiloader-loader'
-    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
-    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
-    id "com.github.johnrengelman.shadow" version "7.1.2"
-    id 'net.darkhax.curseforgegradle'
-    id 'com.modrinth.minotaur'
+    id 'net.minecraftforge.gradle'
+    id 'org.spongepowered.mixin'
 }
 
 mixin {
     config("${mod_id}.common.mixins.json")
+}
+
+jar {
+    manifest {
+        attributes["MixinConfigs"] = "${mod_id}.common.mixins.json,${mod_id}.forge.mixins.json"
+    }
 }
 
 //Use the existing Neoforge data generator for resource pack data
@@ -21,7 +24,8 @@ sourceSets {
 }
 
 repositories {
-    maven { url "https://maven.minecraftforge.net/" }
+    maven { url = uri("https://maven.minecraftforge.net/") }
+    maven { url = uri("https://repo1.maven.org/maven2/") }
 }
 
 
@@ -89,9 +93,6 @@ dependencies {
     // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transitive dependencies request 6.0+
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 
-//    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-//    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
-
 //    implementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
     //MixinExtras
@@ -108,7 +109,6 @@ dependencies {
 //        jarJar.ranged(it, "[${rootProject.forge_config_api_port_version},)")
 //    }
 
-
 }
 
 
@@ -124,40 +124,4 @@ sourceSets.each {
     def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
     it.output.resourcesDir = dir
     it.java.destinationDirectory = dir
-}
-
-
-if (System.getenv().CURSEFORGE_PUBLISH) {
-    task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
-        apiToken = System.getenv().CURSEFORGE_PUBLISH
-
-        def mainFile = upload(curseforge_id_forge, jar)
-        mainFile.releaseType = 'release'
-        mainFile.addGameVersion "Forge"
-        mainFile.addGameVersion "${minecraft_version}"
-        mainFile.addGameVersion "Java 21"
-        mainFile.addGameVersion('Client')
-
-        mainFile.changelog = file("$project.rootDir/changelog.md")
-        mainFile.changelogType = 'markdown'
-
-        mainFile.addRequirement("configured")
-    }
-}
-
-
-if (System.getenv().MODRINTH_PUBLISH) {
-    String fileContents = file("$project.rootDir/changelog.md").text
-    modrinth {
-        token = System.getenv().MODRINTH_PUBLISH
-        projectId = project.modrinth_id
-        versionType = "release"
-        versionName = "${mod_name}-${project.name}-${minecraft_version}"
-        versionNumber = project.version
-        uploadFile = jar
-        changelog = fileContents
-        gameVersions = ["${minecraft_version}"]
-        loaders = ["forge"]
-
-    }
 }

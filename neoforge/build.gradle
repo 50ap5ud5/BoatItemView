@@ -1,9 +1,6 @@
 plugins {
     id 'multiloader-loader'
     id 'net.neoforged.moddev'
-    id "com.github.johnrengelman.shadow" version "8.1.1"
-    id 'net.darkhax.curseforgegradle'
-    id 'com.modrinth.minotaur'
 }
 neoForge {
     version = rootProject.neoforge_version
@@ -50,49 +47,11 @@ sourceSets {
 }
 
 repositories {
-    maven { url "https://maven.neoforged.net/releases/" }
-    maven { url "https://maven.architectury.dev/" }
+    maven { url = uri("https://maven.neoforged.net/releases/") }
+    maven { url = uri("https://maven.architectury.dev/") }
 }
 
 dependencies {
 //    neoForge "net.neoforged:neoforge:${neoforge_version}"
-//
-//    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-//    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
 
-}
-
-if (System.getenv().CURSEFORGE_PUBLISH) {
-    task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
-        apiToken = System.getenv().CURSEFORGE_PUBLISH
-
-        def mainFile = upload(curseforge_id_forge, jar)
-        mainFile.releaseType = 'release'
-        mainFile.addGameVersion "Neoforge"
-        mainFile.addGameVersion "${minecraft_version}"
-        mainFile.addGameVersion "Java 21"
-        mainFile.addGameVersion('Client')
-
-        mainFile.changelog = file("$project.rootDir/changelog.md")
-        mainFile.changelogType = 'markdown'
-
-        mainFile.addRequirement("configured")
-    }
-}
-
-
-if (System.getenv().MODRINTH_PUBLISH) {
-    String fileContents = file("$project.rootDir/changelog.md").text
-    modrinth {
-        token = System.getenv().MODRINTH_PUBLISH
-        projectId = project.modrinth_id
-        versionType = "release"
-        versionName = "${mod_name}-${project.name}-${minecraft_version}"
-        versionNumber = project.version
-        uploadFile = jar
-        changelog = fileContents
-        gameVersions = ["${minecraft_version}"]
-        loaders = ["neoforge"]
-
-    }
 }

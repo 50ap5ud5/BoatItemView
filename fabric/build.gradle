@@ -1,9 +1,6 @@
 plugins {
     id 'multiloader-loader'
     id 'fabric-loom'
-    id "com.github.johnrengelman.shadow" version "8.1.1"
-    id 'net.darkhax.curseforgegradle'
-    id 'com.modrinth.minotaur'
 }
 
 //Use the existing Neoforge data generator for resource pack data
@@ -42,23 +39,21 @@ loom {
 
 repositories {
 
-    maven { url "https://maven.architectury.dev/" }
-
     // the repository for Cloth Config
-    maven { url "https://maven.shedaniel.me/" }
+    maven { url = uri("https://maven.shedaniel.me/") }
 
     maven {
-        url "https://cursemaven.com"
+        url = uri("https://cursemaven.com")
     }
 
     maven {
         name = "Mod Menu Maven"
-        url = "https://maven.terraformersmc.com/"
+        url = uri("https://maven.terraformersmc.com/")
     }
 
     maven {
         name = "Fuzs Mod Resources"
-        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+        url = uri("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
     }
 }
 
@@ -72,7 +67,7 @@ dependencies {
 
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-    // Fabric API. This is technically optional, but we need this for Forge Config API Port
+    // Fabric API. This is technically optional, but we need this for Forge Config API Port and Cloth Config
     modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
 
@@ -91,9 +86,6 @@ dependencies {
     }
     modRuntimeOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
 
-//    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-//    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-
 }
 
 /* IntelliJ Project Import
@@ -104,74 +96,6 @@ if (System.getProperty("idea.sync.active") == "true") {
     afterEvaluate {
         tasks.withType(JavaCompile).all {
             it.options.annotationProcessorPath = files()
-        }
-    }
-}
-
-//shadowJar {
-//    exclude "architectury.common.json"
-//    configurations = [project.configurations.shadowCommon]
-//    archiveClassifier = "dev-shadow"
-//}
-
-//remapJar {
-//    injectAccessWidener = true
-//    inputFile.set shadowJar.archiveFile
-//    dependsOn shadowJar
-//    archiveClassifier.set(null)
-//}
-
-//jar {
-//    archiveClassifier.set("dev")
-//}
-
-//sourcesJar {
-//    def commonSources = project(":common").sourcesJar
-//    dependsOn commonSources
-//    from commonSources.archiveFile.map { zipTree(it) }
-//}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-if (System.getenv().CURSEFORGE_PUBLISH) {
-    task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
-        apiToken = System.getenv().CURSEFORGE_PUBLISH
-
-        def mainFile = upload(curseforge_id_fabric, remapJar)
-        mainFile.releaseType = 'release'
-        mainFile.addGameVersion "Fabric"
-        mainFile.addGameVersion "${minecraft_version}"
-        mainFile.addGameVersion "Java 21"
-        mainFile.addGameVersion('Client')
-
-        mainFile.changelog = file("$project.rootDir/changelog.md")
-        mainFile.changelogType = 'markdown'
-
-        mainFile.addRequirement("fabric-api", "cloth-config")
-    }
-}
-
-
-if (System.getenv().MODRINTH_PUBLISH) {
-    String fileContents = file("$project.rootDir/changelog.md").text
-    modrinth {
-        token = System.getenv().MODRINTH_PUBLISH
-        projectId = modrinth_id
-        versionType = "release"
-        versionName = "${mod_name}-${project.name}-${minecraft_version}"
-        versionNumber = project.version
-        uploadFile = remapJar
-        changelog = fileContents
-        gameVersions = ["${minecraft_version}"]
-        loaders = ["fabric"]
-
-        dependencies {
-            required.project "fabric-api"
-            required.project "cloth-config"
         }
     }
 }
