@@ -28,7 +28,7 @@ public class BoatItemViewImpl {
 		}
 	}
 
-	public void onGatherData(GatherDataEvent.Client e) {
+	public void onGatherData(GatherDataEvent e) {
 		DataGenerator generator = e.getGenerator();
 		generator.addProvider(true, new BEnglishLangGen(generator.getPackOutput()));
 		generator.addProvider(true, new BChineseChinaLangGen(generator.getPackOutput()));
