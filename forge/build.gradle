@@ -10,7 +10,7 @@ mixin {
 
 jar {
     manifest {
-        attributes["MixinConfigs"] = "${mod_id}.common.mixins.json,${mod_id}.forge.mixins.json"
+        attributes["MixinConfigs"] = "${mod_id}.common.mixins.json"
     }
 }
 
