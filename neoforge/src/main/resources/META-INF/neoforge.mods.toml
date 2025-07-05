@@ -31,6 +31,6 @@ side = "CLIENT" # Physical side this dependency is applied on - BOTH, CLIENT or 
 [[dependencies."${mod_id}"]]
 modId = "minecraft"
 type="required"
-versionRange = "${minecraft_version_range}"
+versionRange = "${neoforge_minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
