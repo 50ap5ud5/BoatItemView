@@ -51,6 +51,15 @@ Note: As of 1.21, Neoforge has included its own Config GUI, hence the need for a
   </tr>
 </table>
 
+## Translations
+If you would like to contribute a translation to the language of your choice, please use the Github "Pull Request" feature to contribute the language file.
+
+Use the `en_us.json` language file in the `lang` folder of this repository as the template for translations, then rename the file with the locale.
+
+E.g. `fr_fr.json` for French (French) or `zh_ch.json` for Chinese (Simplified)
+
+You can find the list of Locales from the Minecraft Wiki website: https://minecraft.wiki/w/Language
+
 ## Screenshots
 Below are some screenshots of the mod:
 
