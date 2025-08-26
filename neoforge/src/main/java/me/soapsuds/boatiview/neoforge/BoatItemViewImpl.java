@@ -37,5 +37,6 @@ public class BoatItemViewImpl {
 		generator.addProvider(true, new BSpanishLangGen(generator.getPackOutput()));
 		generator.addProvider(true, new BSpanishMexicanLangGen(generator.getPackOutput()));
 		generator.addProvider(true, new BItalianLangGen(generator.getPackOutput()));
+		generator.addProvider(true, new BUkranianLangGen(generator.getPackOutput()));
 	}
 }
