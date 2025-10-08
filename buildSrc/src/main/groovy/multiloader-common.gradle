@@ -91,7 +91,9 @@ processResources {
             'version' : version,
             'group' : project.group, //Else we target the task's group.
             'minecraft_version' : minecraft_version,
-            'resource_pack_format' : resource_pack_format,
+            'resource_pack_format': resource_pack_format,
+            'resource_pack_min_format' : resource_pack_min_format,
+            'resource_pack_max_format' : resource_pack_max_format,
             'mod_version' : mod_version,
             'mod_name' : mod_name,
             'mod_author': mod_author,

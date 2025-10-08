@@ -31,7 +31,7 @@ The Boat Item View Mod is a client-side only Minecraft mod that allows you to vi
 - <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional, provides Config GUI)</a>
 
 ### Neoforge
-Note: As of 1.21, Neoforge has included its own Config GUI, hence the need for a separate Config GUI mod may not be needed.
+Note: As of 1.21, Neoforge has included its own Config GUI, hence a separate Config GUI mod may not be needed.
 
 - <a href="https://www.curseforge.com/minecraft/mc-mods/configured">Configured (Optional, provides Config GUI)</a>
 

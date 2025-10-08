@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ClientHandler {
@@ -17,42 +18,58 @@ public class ClientHandler {
     public static void modifyHandRender(LocalPlayer clientplayerentity, ItemStack itemstack, ItemStack itemstack1) {
         if (Services.CONFIG_HELPER.showHands()) {
             if (clientplayerentity.isHandsBusy()) { //Do another check if the hands are busy because our mixin is injected at the method call
-                boolean showHandsMainHand = false;
-                boolean showHandsOffHand = false;
                 List<? extends String> entries = Services.CONFIG_HELPER.whitelistedItems();
-                for (String entry : entries) {
-                    if (entry.equals("*")){ //Handle allowing every item from all mods
-                        showHandsMainHand = true;
-                        showHandItem(itemstack, true);
-                        showHandsOffHand = true;
-                        showHandItem(itemstack1, false);
-                        break;
-                    }
-                    if(entry.endsWith("*")) { //Handle entire modids by using a wildcard character
-                		String namespace = entry.substring(0, entry.indexOf(':'));
-                	    ResourceLocation mainHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack.getItem());
-                	    ResourceLocation offHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack1.getItem());
-                	    if (mainHandItemLoc.getNamespace().equals(namespace))
-                	        showHandsMainHand = showHandItem(itemstack, true);
-                	    if (offHandItemLoc.getNamespace().equals(namespace))
-                	        showHandsOffHand = showHandItem(itemstack1, false);
-                        break;
-                	}
-                	else { //Otherwise, check by individual item IDs
-                	    ResourceLocation item = ResourceLocation.parse(entry);
-                        if (item != null) {
-                            showHandsMainHand = showHandItem(itemstack, item, true);
-                            showHandsOffHand = showHandItem(itemstack1, item, false);
-                	    }
-                    }
-                }
-                //Increase the hand height so that when the hand is moved down after this mixin, it will appear to remain at 1
-                if (showHandsMainHand) {
-                    Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().mainHandHeight = BConstants.EXTRA_HAND_HEIGHT;
-                }
+                if (!entries.isEmpty()){ //Only change hand height if the list is not empty to account for bad user inputs
+                    List<? extends String> distinctList = entries.stream().distinct().collect(Collectors.toList());
+                    int matchingMainHandItems = 0;
+                    int matchingOffHandItems = 0;
+                    for (String entry : distinctList) {
+                        if (entry.equals("*")){ //Handle allowing every item from all mods
+                            matchingMainHandItems++;
+                            showHandItem(itemstack, true);
+                            matchingOffHandItems++;
+                            showHandItem(itemstack1, false);
+                            break; //Break the loop and don't check further entries
+                        }
 
-                if (showHandsOffHand) {
-                    Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().offHandHeight = BConstants.EXTRA_HAND_HEIGHT;
+                        //Handle all items in a modid being whitelisted
+                        if(entry.endsWith("*")) { //Handle entire modids by using a wildcard character
+                            String namespace = entry.substring(0, entry.indexOf(':'));
+                            ResourceLocation mainHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack.getItem());
+                            ResourceLocation offHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack1.getItem());
+                            if (mainHandItemLoc.getNamespace().equals(namespace)) {
+                                if(showHandItem(itemstack, true))
+                                    matchingMainHandItems++;
+                            }
+                            if (offHandItemLoc.getNamespace().equals(namespace)) {
+                                if(showHandItem(itemstack1, false))
+                                    matchingOffHandItems++;
+                            }
+                        }
+
+                        //If one hand comes from a modid that was whitelisted, continue to check both offhand and mainhand by individual item IDs
+                        //Handles when one hand is an item that has had their entire modid whitelisted and another hand has an item from a different modid which has not had the entire modid whitelisted
+                        ResourceLocation item = ResourceLocation.parse(entry);
+                        if (item != null) {
+                            if(showHandItem(itemstack, item, true))
+                                matchingMainHandItems++;
+                            if(showHandItem(itemstack1, item, false))
+                                matchingOffHandItems++;
+                        }
+
+                    }
+
+                    boolean showHandsMainHand = matchingMainHandItems > 0; //Show main hand if at least 1 item in the whitelist entries matched the current held mainhand item
+                    boolean showHandsOffHand = matchingOffHandItems > 0; //Show offhand hand if at least 1 item in the whitelist entries matched the current held offhand item
+
+                    //Increase the hand height so that when the hand is moved down after this mixin, it will appear to remain at 1
+                    if (showHandsMainHand) {
+                        Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().mainHandHeight = BConstants.EXTRA_HAND_HEIGHT;
+                    }
+
+                    if (showHandsOffHand) {
+                        Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().offHandHeight = BConstants.EXTRA_HAND_HEIGHT;
+                    }
                 }
             }
         }

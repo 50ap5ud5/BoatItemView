@@ -1,11 +1,9 @@
-# Version 0.0.6
+# Version 0.0.7
 
 ## Additions
-- Added a toggle to allow all items regardless of whitelist
-- Added Spanish (Spain) Translation. (Thanks WaffleBOT)
-- Added Spanish (Mexican) Translation. (Thanks WaffleBOT)
-- Addded Italian Translation. (Thanks Vlad Andrei Morariu)
+- Added Ukrainian Translation (Thanks Mykytius)
 ## Changes
-- Re-architectured the mod to allow for future porting to be easier on multiple mod loaders
-- Updated to support Minecraft version 1.21
-- Mod now supports Neoforge in addition to Forge and Fabric.
+- Updated for 1.21.9+
+- Both hands' held item will now be shown if each hand holds a different whitelisted item (E.g. Main Hand = `create:wrench` , Offhand = `minecraft:filled_map`)
+- Both hands' held item will now be shown when one hand's entire namespace is whitelisted and the other hand's item is selectively whitelisted (E.g. Main Hand = `ad_astra:*` , Offhand = `minecraft:filled_map`)  
+- Performance enhancement - held items will be hidden as per vanilla behaviour if the whitelist has no entries and the showHands config option is still set to TRUE

@@ -2,7 +2,7 @@ plugins {
     // see https://fabricmc.net/develop/ for new versions
     id 'fabric-loom' version '1.11-SNAPSHOT' apply false
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
-    id 'net.neoforged.moddev' version '2.0.111' apply false
+    id 'net.neoforged.moddev' version '2.0.113' apply false
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
     id 'net.minecraftforge.gradle' version '[6.0.36,6.2)' apply false
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT' apply false
@@ -62,6 +62,7 @@ publishMods {
     // CurseForge options used by both Fabric and Forge
     def cfOptions = curseforgeOptions {
         accessToken = providers.gradleProperty("CURSEFORGE_TOKEN")
+        minecraftVersions.add("1.21.9")
         minecraftVersions.add("${minecraft_version}")
         javaVersions.add(JavaVersion.VERSION_21)
         clientRequired = true
@@ -73,7 +74,7 @@ publishMods {
         accessToken = providers.gradleProperty("MODRINTH_TOKEN")
         projectId = "${modrinth_id}"
         minecraftVersionRange {
-            start = "${minecraft_version}"
+            start = "1.21.9"
             end = "${minecraft_version}" // Set to "latest" to use the latest minecraft version
         }
         dryRun = true
