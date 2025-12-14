@@ -1,9 +1,6 @@
-# Version 0.0.7
+# Version 0.0.8
 
-## Additions
-- Added Ukrainian Translation (Thanks Mykytius)
 ## Changes
-- Updated for 1.21.9+
-- Both hands' held item will now be shown if each hand holds a different whitelisted item (E.g. Main Hand = `create:wrench` , Offhand = `minecraft:filled_map`)
-- Both hands' held item will now be shown when one hand's entire namespace is whitelisted and the other hand's item is selectively whitelisted (E.g. Main Hand = `ad_astra:*` , Offhand = `minecraft:filled_map`)  
-- Performance enhancement - held items will be hidden as per vanilla behaviour if the whitelist has no entries and the showHands config option is still set to TRUE
+- **[All Mod Loaders]** Updated for Minecraft 1.21.11
+- **[Fabric]** Moved config file name from the config folder to a dedicated "boatiview" folder. i.e. ".minecraft/config/client.toml" to ".minecraft/config/boatiview/client.toml"
+- **[Fabric]** Removed dependency on Fabric API. This means if you do not wish to use Mod Menu (which requires Fabric API) to access its config GUI, you can do so with a simpler setup. Without Mod Menu, changes made to the config after the game has launched will not be applied until the game is closed and restarted.

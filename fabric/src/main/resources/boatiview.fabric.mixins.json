@@ -1,7 +1,6 @@
 {
   "required": true,
   "package": "me.soapsuds.boatiview.mixin.fabric",
-  "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "client": [
   ],

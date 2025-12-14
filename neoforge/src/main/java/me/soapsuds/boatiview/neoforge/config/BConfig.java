@@ -24,7 +24,7 @@ public class BConfig {
 		public final ModConfigSpec.ConfigValue<List<? extends String>> WHITELISTED_ITEMS;
 
 		public Client(ModConfigSpec.Builder builder) {
-			builder.push(BConstants.CONFIG_NAME);
+			builder.push(BConstants.CONFIG_NAME_FORGE);
 			SHOW_HANDS = builder.comment("Toggle whether the item in hand should be rendered whilst the boat is moving").translation(BTranslationKeys.configOption(BTranslationKeys.CONFIG_SHOW_HANDS)).define("show_hands", true);
 			WHITELISTED_ITEMS = builder.comment("Items that will remain displayed in hand. Adding the character '*' after a Mod ID will include all items from the mod. E.g. 'modid:*'. If no Mod ID is specified before the '*' character, all items will be included. E.g. '*'")
 					.translation(BTranslationKeys.configOption(BTranslationKeys.CONFIG_WHITELIST_ITEMS))

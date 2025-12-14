@@ -11,12 +11,12 @@ public class FabricConfigHelper implements IBConfigHelper {
     @Override
     public boolean showHands() {
         BConfig config = BoatItemViewImpl.CONFIG.getConfig();
-        return config.show_hands;
+        return config.clientConfig.show_hands;
     }
 
     @Override
     public List<? extends String> whitelistedItems() {
         BConfig config = BoatItemViewImpl.CONFIG.getConfig();
-        return config.whitelisted_items;
+        return config.clientConfig.whitelisted_items;
     }
 }

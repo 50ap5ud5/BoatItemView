@@ -6,7 +6,7 @@ import me.soapsuds.boatiview.util.BConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -35,8 +35,8 @@ public class ClientHandler {
                         //Handle all items in a modid being whitelisted
                         if(entry.endsWith("*")) { //Handle entire modids by using a wildcard character
                             String namespace = entry.substring(0, entry.indexOf(':'));
-                            ResourceLocation mainHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack.getItem());
-                            ResourceLocation offHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack1.getItem());
+                            Identifier mainHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack.getItem());
+                            Identifier offHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack1.getItem());
                             if (mainHandItemLoc.getNamespace().equals(namespace)) {
                                 if(showHandItem(itemstack, true))
                                     matchingMainHandItems++;
@@ -49,7 +49,7 @@ public class ClientHandler {
 
                         //If one hand comes from a modid that was whitelisted, continue to check both offhand and mainhand by individual item IDs
                         //Handles when one hand is an item that has had their entire modid whitelisted and another hand has an item from a different modid which has not had the entire modid whitelisted
-                        ResourceLocation item = ResourceLocation.parse(entry);
+                        Identifier item = Identifier.parse(entry);
                         if (item != null) {
                             if(showHandItem(itemstack, item, true))
                                 matchingMainHandItems++;
@@ -84,7 +84,7 @@ public class ClientHandler {
 		return true;
     }
     /** Alternative version of above method with an equality check by Item instance*/
-    private static boolean showHandItem(ItemStack handStack, ResourceLocation whitelisted, boolean mainHand) {
+    private static boolean showHandItem(ItemStack handStack, Identifier whitelisted, boolean mainHand) {
     	if (BuiltInRegistries.ITEM.getKey(handStack.getItem()).equals(whitelisted)) {
     		return showHandItem(handStack, mainHand);
     	}
