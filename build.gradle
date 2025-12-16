@@ -87,11 +87,8 @@ publishMods {
         file project(":fabric")
         projectId = "${curseforge_id_fabric}"
         modLoaders.add("fabric")
-        requires {
-            slug = "fabric-api"
-        }
         embeds("cloth-config")
-        optional("modmenu")
+        optional("modmenu", "fabric-api")
         version = "${minecraft_version}-${mod_version}-fabric"
         displayName = "${jar_name}-Fabric-${minecraft_version}-${mod_version}"
     }
@@ -121,15 +118,8 @@ publishMods {
         from mrOptions
         file project(":fabric")
         modLoaders.add("fabric")
-        requires {
-            slug = "fabric-api"
-        }
-        embeds {
-            slug = "cloth-config"
-        }
-        optional {
-            slug = "modmenu"
-        }
+        embeds("cloth-config")
+        optional("modmenu", "fabric-api")
         version = "${minecraft_version}-${mod_version}-fabric"
         displayName = "${jar_name}-Fabric-${minecraft_version}-${mod_version}"
     }
