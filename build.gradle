@@ -1,12 +1,10 @@
 plugins {
     // see https://fabricmc.net/develop/ for new versions
-    id 'net.fabricmc.fabric-loom-remap' version '1.14-SNAPSHOT' apply false
+    id 'net.fabricmc.fabric-loom' version "${loom_version}" apply false
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
-    id 'net.neoforged.moddev' version '2.0.124' apply false
+    id 'net.neoforged.moddev' version "${mod_dev_gradle_version}" apply false
     id "me.modmuss50.mod-publish-plugin" version "1.1.0"
-    // AccessTransformers needs to be applied before FG if you want to use the minecraft block config options
-    id 'net.minecraftforge.accesstransformers' version '5.0.2' apply false
-    id 'net.minecraftforge.gradle' version '7.0.0-beta.55' apply false
+    id 'net.minecraftforge.gradle' version "${forge_gradle_version}" apply false
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT' apply false
 }
 
@@ -47,7 +45,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 21
+        options.release = 25
     }
 
 }
@@ -65,7 +63,7 @@ publishMods {
     def cfOptions = curseforgeOptions {
         accessToken = providers.gradleProperty("CURSEFORGE_TOKEN")
         minecraftVersions.add("${minecraft_version}")
-        javaVersions.add(JavaVersion.VERSION_21)
+        javaVersions.add(JavaVersion.VERSION_25)
         clientRequired = true
         dryRun = true
     }
@@ -75,7 +73,7 @@ publishMods {
         accessToken = providers.gradleProperty("MODRINTH_TOKEN")
         projectId = "${modrinth_id}"
         minecraftVersionRange {
-            start = "1.21.11"
+            start = "26.1"
             end = "${minecraft_version}" // Set to "latest" to use the latest minecraft version
         }
         dryRun = true

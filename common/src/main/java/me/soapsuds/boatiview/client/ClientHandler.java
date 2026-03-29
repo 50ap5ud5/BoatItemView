@@ -20,7 +20,7 @@ public class ClientHandler {
             if (clientplayerentity.isHandsBusy()) { //Do another check if the hands are busy because our mixin is injected at the method call
                 List<? extends String> entries = Services.CONFIG_HELPER.whitelistedItems();
                 if (!entries.isEmpty()){ //Only change hand height if the list is not empty to account for bad user inputs
-                    List<? extends String> distinctList = entries.stream().distinct().collect(Collectors.toList());
+                    List<? extends String> distinctList = entries.stream().distinct().toList();
                     int matchingMainHandItems = 0;
                     int matchingOffHandItems = 0;
                     for (String entry : distinctList) {

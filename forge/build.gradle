@@ -1,6 +1,5 @@
 plugins {
     id 'multiloader-loader'
-    id 'net.minecraftforge.accesstransformers' // AccessTransformers needs to be applied before FG if you want to use the minecraft block config options
     id 'net.minecraftforge.gradle'
 }
 
@@ -21,8 +20,6 @@ repositories {
 
 minecraft {
 
-    mappings channel: 'official', version: minecraft_version
-
     /*
     * This is a magic helper flag, it will enable access transformers on any
     * minecraft dependencies and look in all sourcesets for a file with
@@ -30,8 +27,7 @@ minecraft {
     * It also enables some error messages when the file can not be found, to help users
     * who are using the most default case.
     */
-    accessTransformers = true
-
+    accessTransformer = true
 
     runs {
         // Applies to all the run configs below.

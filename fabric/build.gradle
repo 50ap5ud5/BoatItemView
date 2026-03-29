@@ -1,6 +1,6 @@
 plugins {
     id 'multiloader-loader'
-    id 'net.fabricmc.fabric-loom-remap'
+    id 'net.fabricmc.fabric-loom'
 }
 
 //Use the existing Neoforge data generator for resource pack data
@@ -13,7 +13,7 @@ sourceSets {
 }
 
 loom {
-    //Use the Access Widener File in the Common project module
+    //Use the Access Widener File in the Fabric project module
     def aw = project(':fabric').file("src/main/resources/${mod_id}.accesswidener")
     if (aw.exists()) {
         accessWidenerPath.set(aw)
@@ -58,31 +58,27 @@ repositories {
 dependencies {
 
     minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-    mappings loom.layered {
-        officialMojangMappings()
-//        parchment("org.parchmentmc.data:parchment-${rootProject.parchment_minecraft_version}:${rootProject.parchment_version}@zip")
-    }
 
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
     // Fabric API. This is technically optional, but we need this for Forge Config API Port and Cloth Config
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
 
     // Forge Config API Port
-//    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
+//    api "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
 //    include "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${rootProject.forge_config_api_port_version}"
 
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
+    api("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
     include "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
 
-    modCompileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") {
+    compileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") {
         transitive(false)
     }
-    modRuntimeOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
+    runtimeOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
 
 }
 

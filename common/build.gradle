@@ -10,10 +10,6 @@ neoForge {
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
     }
-    parchment {
-        minecraftVersion = "${rootProject.parchment_minecraft_version}"
-        mappingsVersion = "${rootProject.parchment_version}"
-    }
 }
 
 
@@ -32,7 +28,7 @@ dependencies {
 //    compileOnly "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:${rootProject.forge_config_api_port_version}"
 
     //Cloth Config common module
-//    modCompileOnlyApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")
+//    compileOnlyApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")
 
 //    include "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
 }
