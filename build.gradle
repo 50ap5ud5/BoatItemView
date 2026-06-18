@@ -73,7 +73,7 @@ publishMods {
         accessToken = providers.gradleProperty("MODRINTH_TOKEN")
         projectId = "${modrinth_id}"
         minecraftVersionRange {
-            start = "26.1"
+            start = "26.2"
             end = "${minecraft_version}" // Set to "latest" to use the latest minecraft version
         }
         dryRun = true
