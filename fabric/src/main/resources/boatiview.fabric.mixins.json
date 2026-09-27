@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "me.soapsuds.boatiview.mixin.fabric",
+  "package": "me.soapsuds.boatiview.fabric.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
   ],

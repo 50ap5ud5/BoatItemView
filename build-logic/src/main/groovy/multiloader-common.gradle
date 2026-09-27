@@ -90,6 +90,7 @@ processResources {
             'credits' : credits,
             'java_version' : java_version,
             'logo_file' : logo_file,
+            'banner_file': banner_file,
             'sources' : sources,
             'homepage' : homepage,
             'issue_tracker_url' : issue_tracker_url,

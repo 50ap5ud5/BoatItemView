@@ -8,15 +8,15 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import me.soapsuds.boatiview.client.ClientHandler;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.client.player.FirstPersonHandsAndItems;
 import net.minecraft.world.item.ItemStack;
 
-@Mixin(ItemInHandRenderer.class)
+@Mixin(FirstPersonHandsAndItems.class)
 public class FirstPersonRendererMixin {
-	
-	@Inject(method = "Lnet/minecraft/client/renderer/ItemInHandRenderer;tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isHandsBusy()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
-	public void modifyHandRender(CallbackInfo info, LocalPlayer clientplayerentity, ItemStack itemstack, ItemStack itemstack1) {
-		ClientHandler.modifyHandRender(clientplayerentity, itemstack, itemstack1);
+
+	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isHandsBusy()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
+	public void modifyHandRender(LocalPlayer player, CallbackInfo ci, ItemStack nextMainHand, ItemStack nextOffHand) {
+		ClientHandler.modifyHandRender(player, nextMainHand, nextOffHand);
 	}
 
 }
