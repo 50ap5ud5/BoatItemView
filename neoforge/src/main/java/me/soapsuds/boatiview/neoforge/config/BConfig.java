@@ -26,9 +26,9 @@ public class BConfig {
 		public Client(ModConfigSpec.Builder builder) {
 			builder.push(BConstants.CONFIG_NAME_FORGE);
 			SHOW_HANDS = builder.comment("Toggle whether the item in hand should be rendered whilst the boat is moving").translation(BTranslationKeys.configOption(BTranslationKeys.CONFIG_SHOW_HANDS)).define("show_hands", true);
-			WHITELISTED_ITEMS = builder.comment("Items that will remain displayed in hand. Adding the character '*' after a Mod ID will include all items from the mod. E.g. 'modid:*'. If no Mod ID is specified before the '*' character, all items will be included. E.g. '*'")
+			WHITELISTED_ITEMS = builder.comment("Items that will remain displayed in hand. Adding the character '*' after a Mod ID will include all items from the mod. E.g. 'modid:*'. If no Mod ID is specified before the '*' character, all items will be included. E.g. '*'. Item Tags using a '#' character are also supported. E.g. #minecraft:clonable_maps")
 					.translation(BTranslationKeys.configOption(BTranslationKeys.CONFIG_WHITELIST_ITEMS))
-					.defineList("whitelisted_items", Lists.newArrayList("minecraft:filled_map"), () -> "namespace:item_id", String.class::isInstance);
+					.defineList("whitelisted_items", BConstants.DEFAULT_CONFIG_OPTIONS, () -> "namespace:item_id", String.class::isInstance);
 			builder.pop();
 		}
 

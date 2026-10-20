@@ -6,7 +6,10 @@ import me.soapsuds.boatiview.util.BConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -30,9 +33,25 @@ public class ClientHandler {
                             showHandItem(itemstack1, false);
                             break; //Break the loop and don't check further entries
                         }
-
+                        // Handle Item Tags
+                        if (entry.startsWith("#")){
+                            String cleanedEntry = entry.substring(1);
+                            Identifier itemTagIdentifier = Identifier.tryParse(cleanedEntry);
+                            if (itemTagIdentifier != null){
+                                TagKey<Item> itemTag = TagKey.create(Registries.ITEM, itemTagIdentifier);
+                                if (itemstack.is(itemTag)) {
+                                    if (showHandItem(itemstack, true))
+                                        matchingMainHandItems++;
+                                }
+                                if (itemstack1.is(itemTag)) {
+                                    if (showHandItem(itemstack1, false))
+                                        matchingOffHandItems++;
+                                }
+                                continue; //Don't evaluate further conditions for this entry to avoid hash character triggering Identifier parsing failure in later condition
+                            }
+                        }
                         //Handle all items in a modid being whitelisted
-                        if (entry.endsWith("*")) { //Handle entire modids by using a wildcard character
+                        if (!entry.startsWith("#") && entry.endsWith("*")) { //Handle entire modids by using a wildcard character
                             String namespace = entry.substring(0, entry.indexOf(':'));
                             Identifier mainHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack.getItem());
                             Identifier offHandItemLoc = BuiltInRegistries.ITEM.getKey(itemstack1.getItem());
@@ -48,11 +67,13 @@ public class ClientHandler {
                         else {
                             //If one hand comes from a modid that was whitelisted, continue to check both offhand and mainhand by individual item IDs
                             //Handles when one hand is an item that has had their entire modid whitelisted and another hand has an item from a different modid which has not had the entire modid whitelisted
-                            Identifier item = Identifier.parse(entry);
-                            if (showHandItem(itemstack, item, true))
-                                matchingMainHandItems++;
-                            if (showHandItem(itemstack1, item, false))
-                                matchingOffHandItems++;
+                            Identifier itemLoc = Identifier.tryParse(entry);
+                            if(itemLoc != null) {
+                                if (showHandItem(itemstack, itemLoc, true))
+                                    matchingMainHandItems++;
+                                if (showHandItem(itemstack1, itemLoc, false))
+                                    matchingOffHandItems++;
+                            }
                         }
                     }
 

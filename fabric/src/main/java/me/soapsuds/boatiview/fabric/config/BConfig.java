@@ -22,8 +22,8 @@ public class BConfig extends PartitioningSerializer.GlobalData {
     public static class BClientConfig implements ConfigData {
         @Comment("Toggle whether the item held in hand should be rendered whilst the boat is moving")
         public boolean show_hands = true;
-        @Comment("List of items that will make the hand display when a boat is moving. Seperate every entry except the last one with commas\nTo include all items for a particular modid use the wildcard character '*'. E.g. modid:*.\nIf no Mod ID is specified before the '*' character, all items will be included. E.g. '*'")
-        public List<String> whitelisted_items = Lists.newArrayList("minecraft:filled_map");
+        @Comment("List of items that will make the hand display when a boat is moving. Seperate every entry except the last one with commas\nTo include all items for a particular modid use the wildcard character '*'. E.g. modid:*.\nIf no Mod ID is specified before the '*' character, all items will be included. E.g. '*'. Item Tags using a '#' character are also supported. E.g. #minecraft:clonable_maps")
+        public List<String> whitelisted_items = BConstants.DEFAULT_CONFIG_OPTIONS;
 
         public BClientConfig() {
 

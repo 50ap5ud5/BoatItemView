@@ -1,6 +1,9 @@
 package me.soapsuds.boatiview.util;
 
+import com.google.common.collect.Lists;
 import me.soapsuds.boatiview.BoatItemView;
+
+import java.util.List;
 
 public class BConstants {
 	
@@ -37,5 +40,7 @@ public class BConstants {
 		CLOTH,
 		NEOFORGE
 	}
+
+	public static final List<String> DEFAULT_CONFIG_OPTIONS = Lists.newArrayList("#minecraft:clonable_maps", "#minecraft:extendable_maps", "#minecraft:compasses", "minecraft:clock");
 
 }
